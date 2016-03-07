@@ -19,10 +19,11 @@ e.j.diepgrond@gmail.com
 	along with NeuroNet.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
-from Engine.ENNet import *
-from Engine.ENN_Models import *
 import networkx as nx
 import pylab as pl
+
+from Engine.ENN_Models import *
+from Engine.ENNet import *
 
 if __name__ == '__main__':
     # Use networkx library to create nodes and edges (neurons and synapses)
@@ -72,7 +73,8 @@ if __name__ == '__main__':
     # Create network with neurons of specified type and behavior
     # And synapses of specified type and behavior
     # Every network can have its own time step (dt)
-    network = Network(networkx=G, neuronFun=neuron, neuronDict=neuronDict, synapseFun=synapse, synapseDict=synapseDict, dt=dt,poolSize=3)
+    network = Network(networkx=G, neuronFun=neuron, neuronDict=neuronDict, synapseFun=synapse, synapseDict=synapseDict,
+                      dt=dt)
 
     # Add one gaussian generator 'neuron' and link it to neuronId 0
     neuron_id = network.addNeuron(neuronDict=gaussDict,neuronFun=gausNeuron)

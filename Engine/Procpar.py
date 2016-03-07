@@ -19,10 +19,11 @@ e.j.diepgrond@gmail.com
 	along with NeuroNet.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
+import gc
 import multiprocessing as mp
 from math import floor
 from time import clock
-import gc
+
 
 class Worker(mp.Process):
     static_parent_connections = []
@@ -41,14 +42,7 @@ class Worker(mp.Process):
         self.parent_conn.close() # We are the child!
         self.child_conn.send(True)
         if self.verbose: print('Child(%i) started'%self.id)
-        while True:
-            command = self.child_conn.recv() #recieve command
-            if command==None:
-                break
-            if self.verbose: print('Child(%i): Processing data...'%self.id)
-            start = clock()
-            self.child_conn.send(self.do(command)) #send answers
-            if self.verbose: print('Child(%i): Done! in %.2f seconds'%(self.id, clock()-start ))
+        self.loop()
         if self.verbose: print('Stopping child %i'%self.id)
         self.child_conn.close()
 
@@ -84,6 +78,17 @@ class Worker(mp.Process):
         else:
             return None #Unknown
         return results
+
+    def loop(self):
+        while True:
+            command = self.child_conn.recv()  # recieve command
+            if command == None:
+                break
+            if self.verbose: print('Child(%i): Processing data...' % self.id)
+            start = clock()
+            self.child_conn.send(self.do(command))  # send answers
+            if self.verbose: print('Child(%i): Done! in %.2f seconds' % (self.id, clock() - start))
+
 
 class Pool:
     def __init__(self,nWorkers = mp.cpu_count(),verbose=False,workerClass=Worker):

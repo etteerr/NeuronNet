@@ -20,7 +20,6 @@ e.j.diepgrond@gmail.com
 '''
 
 import copy
-from multiprocessing import cpu_count
 from time import clock
 
 from .Procpar import Pool
@@ -132,7 +131,7 @@ class Simulator:
             print('getRecorder: Unknown recorder')
             return None
 
-    def simulate(self, duration_ms,network=None,poolSize = None):
+    def simulate(self, duration_ms, network=None, poolSize=None):
         """
         Starts the simulation for specified duration for all networks
         :param duration_ms: Duration of simulation in ms
@@ -142,14 +141,15 @@ class Simulator:
         print('Starting a %fms network simulation..' % duration_ms)
         if network==None:
             for (_,i) in self._networks.items():
-                i.simulate(duration_ms,self._recorders)
+                i.simulate(duration_ms, self._recorders, poolSize=poolSize)
         elif network in self._networks.keys():
-            self._networks[network].simulate(duration_ms,self._recorders)
+            self._networks[network].simulate(duration_ms, self._recorders, poolSize=poolSize)
 
 
 class Network:
     _suppressChangeWarnings = False
-    def __init__(self, neuronFun, neuronDict, synapseFun, synapseDict, dt, networkx=None, poolSize = cpu_count()-1,verbose=False):
+
+    def __init__(self, neuronFun, neuronDict, synapseFun, synapseDict, dt, networkx=None, verbose=False):
         """
         Generates a network based on the parameters
         :param neuronFun: neuron class derived from the BaseNeuron class in Neurons.py (initialized)
@@ -168,10 +168,9 @@ class Network:
         self._neuronFun = neuronFun
         self._neuronDict = neuronDict
         self._synapseDict = synapseDict
+        self._pool = None
         self._time = 0
         self._timeline = []
-        self._pool = None
-        self._poolsize = poolSize
         self._recorders = []
         if not networkx == None:
             print('Creating network with %i nodes and %i connections...'%(networkx.number_of_nodes(),networkx.number_of_edges()))
@@ -295,10 +294,12 @@ class Network:
             i += step
         return line
 
-    def simulate(self,duration,recorders):
+    def simulate(self, duration, recorders, poolSize=None):
         """
         Simulates one neuron for time (ms)
         :param duration: duration of simulation in ms
+        :param recorders: The recorders for this network
+        :param poolSize: The amount of subprocess. < 1 or None = Local only
         :return: I wont return a value or anything... baka
         """
         #Generate timeline
@@ -314,9 +315,22 @@ class Network:
         # Add to current timeline
         self._timeline +=timeline
 
-        # Start pool
+        # Start simulation
+        if poolSize is None:
+            self.localSim(timeline=timeline)
+        elif poolSize > 0:
+            self.poolSim(timeline=timeline, poolSize=poolSize)
+        else:
+            print(
+                'Invalid poolSize %i. Only values bigger than 0 will result in a pooled simulation.\nStarting local simulation...' % poolSize)
+            self.localSim(timeline=timeline)
+
+        return 'Baka!'
+
+    ##################################### Pooled Operations #####################################
+    def poolSim(self, timeline, poolSize):
         del self._pool
-        self._pool = Pool(self._poolsize,verbose=self._verbose,workerClass=EnnWorker)
+        self._pool = Pool(poolSize, verbose=self._verbose, workerClass=EnnWorker)
 
         etaEvery = 10#seconds (no more than 1 in 5 seconds)
         sPassed = 0
@@ -328,7 +342,7 @@ class Network:
         for time in timeline:
             stepTime = clock()
             self._time = time
-            self._step()
+            self._poolStep()
             stepCounter+=1
             stepTime=clock()-stepTime
             sPassed+=stepTime
@@ -339,30 +353,27 @@ class Network:
                 sPassed = 0
 
         self._pool.close()
-        return 'Baka!'
 
-    def _step(self):
+    def _poolStep(self):
         if self._verbose: t=clock()
-        self._updateNeurons()
-        self._updateSynapses_yielding()
+        self._poolUpdateNeurons()
+        self._poolUpdateSynapses_yielding()
         self._updateRecorders()
         if self._verbose:
             print('Total update time: %.5f' % (clock()-t))
             print('-------------------------')
 
-    def _updateNeurons(self):
+    def _poolUpdateNeurons(self):
         if self._verbose: t=clock()
         self._pool.dispatchJobType3([[i['fun'],i] for (_,i) in self._neurons.items()])
         self._neurons = self._pool.getResult(dict=True)
         if self._verbose: print('update neurons total: %.5f' % (clock()-t))
 
-
-    def _updateSynapses(self):
+    def _poolUpdateSynapses(self):
         if self._verbose: t = clock()
         self._pool.dispatchJobType4([[i['fun'],(i,self._neurons[i['_source']],self._neurons[i['_destin']])] for (_,i) in self._synapses.items()])
         if self._verbose: print('Synapse Dispatch: %.5f' % (clock()-t))
         if self._verbose: t = clock()
-
         res = self._pool.getResult(dict=True)
         if self._verbose: print('Synapse Get: %.5f' % (clock()-t))
         if self._verbose: t = clock()
@@ -371,7 +382,7 @@ class Network:
             self._neurons[dest['id']]['I'] += dest['I'] #TODO: Other values are not updated, maybe do something?
         if self._verbose: print('Synapse Set: %.5f' % (clock()-t))
 
-    def _updateSynapses_yielding(self):
+    def _poolUpdateSynapses_yielding(self):
         if self._verbose: t = clock()
         self._pool.dispatchJobType4([[i['fun'],(i,self._neurons[i['_source']],self._neurons[i['_destin']])] for (_,i) in self._synapses.items()])
         if self._verbose: print('Synapse Dispatch: %.5f' % (clock()-t))
@@ -382,6 +393,51 @@ class Network:
                 self._neurons[dest['id']]['I'] += dest['I'] #TODO: Other values are not updated, maybe do something?
         if self._verbose: print('Synapse Set: %.5f' % (clock()-t))
 
+    ##################################### Local operations #####################################
+    def localSim(self, timeline):
+        etaEvery = 10  # seconds (no more than 1 in 5 seconds)
+        sPassed = 0
+        stepCounter = 0
+        totalSteps = len(timeline)
+
+        startTime = clock()
+        # loop
+        for time in timeline:
+            stepTime = clock()
+            self._time = time
+            self._localStep()
+            stepCounter += 1
+            stepTime = clock() - stepTime
+            sPassed += stepTime
+            if sPassed > etaEvery:
+                stepsRemaining = totalSteps - stepCounter
+                runtime = clock() - startTime
+                print('Estimated time remaining: %.4f seconds  (running %.2f seconds)' % (
+                    (runtime / stepCounter) * stepsRemaining, runtime))
+                sPassed = 0
+
+    def _localStep(self):
+        if self._verbose: t = clock()
+        self._localUpdateNeurons()
+        self._localUpdateSynapses()
+        self._updateRecorders()
+        if self._verbose:
+            print('Total update time: %.5f' % (clock() - t))
+            print('-------------------------')
+
+    def _localUpdateNeurons(self):
+        if self._verbose: t = clock()
+        for (key, neuron) in self._neurons.items():
+            self._neuronFun(neuron)
+        if self._verbose: print('update neurons total: %.5f' % (clock() - t))
+
+    def _localUpdateSynapses(self):
+        if self._verbose: t = clock()
+        for (key, synapse) in self._synapses.items():
+            synapse, self._neurons[synapse['_source']], self._neurons[synapse['_source']] = \
+                self._synapseFun(synapse, self._neurons[synapse['_source']], self._neurons[synapse['_source']])
+        if self._verbose: print('update synapses total: %.5f' % (clock() - t))
+
     def _updateRecorders(self):
         if self._verbose: t=clock()
         for recorder in self._recorders:
@@ -390,8 +446,9 @@ class Network:
                     recorder[var][nid].append(self._neurons[nid][var])
         if self._verbose: print('Recorder updates: %.5f' % (clock()-t))
 
+
 class Recorder(object):
-    def __init__(self ,networkId , neuronIds, variables=['v', 'I'], withTime = False):
+    def __init__(self, networkId, neuronIds, variables=['Vm'], withTime=False):  # TODO: WithTime
         self._networkId = networkId
         self._neuronIds = neuronIds
         self._variables = variables

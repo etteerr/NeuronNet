@@ -23,6 +23,8 @@ import copy
 from multiprocessing import Pool
 from time import clock
 
+import pickle
+
 
 class Simulator:
     """
@@ -69,7 +71,7 @@ class Simulator:
         """
         network = Network(neuronFun=neuronFun, synapseFun=synapseFun,
                           neuronDict=neuronDict, synapseDict=synapseDict,
-                          networkx=G, dt=dt, verbose=verbose
+                          networkx=G, dt=dt, debugVerbose=verbose
                           )
         return self.addNetwork(network)
 
@@ -160,7 +162,7 @@ class Simulator:
 class Network:
     _suppressChangeWarnings = False
 
-    def __init__(self, neuronFun, neuronDict, synapseFun, synapseDict, dt, networkx=None, verbose=False):
+    def __init__(self, neuronFun, neuronDict, synapseFun, synapseDict, dt, networkx=None, verbose=False, debugVerbose=False, progressCallback=None):
         """
         Generates a network based on the parameters
         :param neuronFun: the neuron Update function with the form of: dict = fun(dict)
@@ -169,24 +171,49 @@ class Network:
         :param dt: the simulation time step in ms
         :param networkx: a network from the networkx package. If None, initializes empty network
         """
+        # Network id, set by simulator
         self._id = None
+
+        # Timestep
         self._dt = dt
-        self._verbose = verbose
+
+        # Verbosity settings
+        self._debugVerbose = debugVerbose # All timings
+        self._verbose = verbose # Progress times
+
+        # Data dicts
         self._neurons = {}
         self._synapses = {}
+
+        # Id counters
         self._neuronCounter = 0
         self._synapseCounter = 0
-        self._synapseFun = synapseFun #
+
+        # Update default update functions
+        self._synapseFun = synapseFun
         self._neuronFun = neuronFun
         self._neuronDict = neuronDict
         self._synapseDict = synapseDict
+
+        # Time
         self._time = 0
         self._timeline = []
+
+        # Data gathering / recording
         self._recorders = []
+
+        # Progress
+        self._progressCallback = progressCallback
+        self._pCallback = False
+        if progressCallback is not None:
+            self._pCallback = True
+
+        # Init network
         if not networkx == None:
-            print('(Network  ) Creating network with %i nodes and %i connections...' % (
-                networkx.number_of_nodes(), networkx.number_of_edges()))
-            start = clock()
+            if verbose:
+                print('(Network  ) Creating network with %i nodes and %i connections...' % (
+                    networkx.number_of_nodes(), networkx.number_of_edges()))
+            if verbose: start = clock()
             for (i,data) in networkx.nodes_iter(data=True):
                 n = copy.copy(neuronDict)
                 n.update(data)
@@ -194,7 +221,7 @@ class Network:
 
             for (i,j,data) in networkx.edges_iter(data=True):
                 self.connect(i, j, data,synapseFun, synapseDict)
-            print('(Network  ) done! (%.2f seconds)' % (clock() - start))
+            if verbose: print('(Network  ) done! (%.2f seconds)' % (clock() - start))
 
     def addNeuron(self, neuronFun=None, neuronDict=None, id=None, ):
         """
@@ -353,41 +380,50 @@ class Network:
             if sPassed > etaEvery:
                 stepsRemaining = totalSteps - stepCounter
                 runtime = clock() - startTime
-                print('(Network %i) Estimated time remaining: %.4f seconds  (running %.2f seconds)' % (
-                    self._id,
-                    (runtime / stepCounter) * stepsRemaining, runtime))
+                if self._verbose: print('(Network %i) Estimated time remaining: %.4f seconds  (running %.2f seconds)' % (
+                        self._id,
+                        (runtime / stepCounter) * stepsRemaining, runtime))
                 sPassed = 0
 
     def _localStep(self):
-        if self._verbose: t = clock()
+        if self._debugVerbose: t = clock()
         self._localUpdateNeurons()
         self._localUpdateSynapses()
         self._updateRecorders()
-        if self._verbose:
+        if self._debugVerbose:
             print('(Network %i) Total update time: %.5f' % (self._id, clock() - t))
             print('(Network %i) -------------------------', self._id)
 
     def _localUpdateNeurons(self):
-        if self._verbose: t = clock()
+        if self._debugVerbose: t = clock()
         for (key, neuron) in self._neurons.items():
             neuron['fun'](neuron)
-        if self._verbose: print('(Network %i) update neurons total: %.5f' % (self._id, clock() - t))
+        if self._debugVerbose: print('(Network %i) update neurons total: %.5f' % (self._id, clock() - t))
 
     def _localUpdateSynapses(self):
-        if self._verbose: t = clock()
+        if self._debugVerbose: t = clock()
         for (key, synapse) in self._synapses.items():
             self._synapses[key], self._neurons[synapse['_source']], self._neurons[synapse['_destin']] = \
                 synapse['fun'](synapse, self._neurons[synapse['_source']], self._neurons[synapse['_destin']])
-        if self._verbose: print('(Network %i) update synapses total: %.5f' % (self._id, clock() - t))
+        if self._debugVerbose: print('(Network %i) update synapses total: %.5f' % (self._id, clock() - t))
 
     def _updateRecorders(self):
-        if self._verbose: t=clock()
+        if self._debugVerbose: t=clock()
         for recorder in self._recorders:
             for nid in recorder._neuronIds:
                 if nid in self._neurons.keys():
                     for var in recorder._variables:
                         recorder[var][nid].append(self._neurons[nid][var])
-        if self._verbose: print('(Network %i) Recorder updates: %.5f' % (self._id, clock() - t))
+        if self._debugVerbose: print('(Network %i) Recorder updates: %.5f' % (self._id, clock() - t))
+
+    def saveState(self, file):
+        with open(file+".pNet",'wb') as fHandle:
+            pickle.dump(self, fHandle)
+
+    @staticmethod
+    def loadNetworkState(file):
+        with open(file+".pNet", 'rb') as fHandle:
+            return pickle.load(fHandle)
 
 
 class Recorder(object):
@@ -409,6 +445,22 @@ class Recorder(object):
     def __setitem__(self, key, value):
         setattr(self,key,value)
 
+    def save(self, file):
+        with open(file+".pRek", 'wb') as fHandle:
+            pickle.dump(self,fHandle)
+    @staticmethod
+    def load(file):
+        with open(file+".pRek", 'rb') as fHandle:
+            return pickle.load(fHandle)
+
+    def saveToXML(self, file):
+        import json
+        data = json.dumps(self, ensure_ascii=False)
+        return data
+
+
+
+
 def dumpclean(obj):
     if type(obj) == dict:
         for k, v in obj.items():
@@ -427,5 +479,73 @@ def dumpclean(obj):
         print (obj)
 
 
+
+
+######################## INTERFACE ##########################
+#TODO: Create deamon serving http and ENNet requests
+from http.server import BaseHTTPRequestHandler, HTTPServer, SimpleHTTPRequestHandler
+import os
+import posixpath
+import urllib.parse as urllib
+
+PORT_NUMBER_SERVER = 8080
+ROUTES = (
+    # [url_prefix ,  directory_path]
+    ['',       os.getcwd()+'\\NeuronNetInterface'],  # empty string for the 'default' match
+)
+
+class Hostess(SimpleHTTPRequestHandler):
+    def do_DATA(self):
+        pass #TODO: Load data and send in format
+
+    def do_CAT(self):
+        pass #TODO: Pass data catalog
+
+    def do_STOP(self):
+        pass #TODO: Stop server via webinterface
+
+
+    def translate_path(self, path):
+        """translate path given routes"""
+
+        # set default root to cwd
+        root = os.getcwd()
+
+        # look up routes and set root directory accordingly
+        for pattern, rootdir in ROUTES:
+            if path.startswith(pattern):
+                # found match!
+                path = path[len(pattern):]  # consume path up to pattern len
+                root = rootdir
+                break
+
+        # normalize path and prepend root directory
+        path = path.split('?',1)[0]
+        path = path.split('#',1)[0]
+        path = posixpath.normpath(urllib.unquote(path))
+        words = path.split('/')
+        words = filter(None, words)
+
+        path = root
+        for word in words:
+            drive, word = os.path.splitdrive(word)
+            head, word = os.path.split(word)
+            if word in (os.curdir, os.pardir):
+                continue
+            path = os.path.join(path, word)
+
+        return path
+
+def startServer(): # Blocking call or deamon?
+    server = None
+    try:
+        server = HTTPServer(('', PORT_NUMBER_SERVER), Hostess )
+        print('Hostess now serving you at ', PORT_NUMBER_SERVER )
+
+        server.serve_forever()
+
+    except KeyboardInterrupt:
+        print('Keyboard Interrupt: Server stopping...')
+        if server is not None: server.socket.close()
 
 

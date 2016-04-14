@@ -29,9 +29,9 @@ if __name__ == '__main__':
 
     # Use networkx library to create nodes and edges (neurons and synapses)
     # TODO: the possibility of nodes being networks
-    N = 10  # Set network size
+    N = 20  # Set network size
     nWorkers = 2  # used in sim.simulate(), Specifies the number of parallel networks to simulate (in this case none, we only have 1 network)
-    verbose = False  # A lot of timing information
+    verbose = True  # A lot of timing information
     dt = 0.01  # Simulation stepsize
 
     # Create a random networkx object (graphx) Others should be supported as well
@@ -73,7 +73,7 @@ if __name__ == '__main__':
     # And synapses of specified type and behavior
     # Every network can have its own time step (dt)
     network = Network(networkx=G, neuronFun=neuron, neuronDict=neuronDict, synapseFun=synapse, synapseDict=synapseDict,
-                      dt=dt, debugVerbose=verbose)
+                      dt=dt, verbose=verbose)
 
     # Add one gaussian generator 'neuron' and link it to neuronId 0
     neuron_id = network.addNeuron(neuronDict=gaussDict, neuronFun=gausNeuron)
@@ -122,15 +122,16 @@ if __name__ == '__main__':
     # Sim second round
     t = clock()
     # Note: When simulating with pools, the reference to the recorders is lost!
-    sim.simulate(duration_ms=800, poolSize=nWorkers)
+    sim.simulate(duration_ms=1800, poolSize=nWorkers)
     print(clock() - t)
 
     # Get the recorders
     m1 = sim.getRecorder(m1id)
     m2 = sim.getRecorder(m2id)
 
-    m1.save('neuronNetData')
-    print(m1.saveToXML('neuronNetData'))
+    #m1.save('neuronNetData')
+    m1.saveToXML('neuronNetData')
+    m1.getSpikeEventtimes(var='Vm', neurons=None, file='spikeEvents')
 
     pl.figure(1)
     for i in m1['Vm'].keys():

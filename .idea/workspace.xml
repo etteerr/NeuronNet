@@ -2,25 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c5468e22-4242-4315-9a9d-571600069c19" name="Default" comment="Changed Working of ENNet&#10;- Removed parallel processing within networks&#10;- Added parallel processing of networks&#10;- Removed usage of Procpar, Now using multiprocessing.Pool&#10;- Fixed all synapses connecting from source to source&#10;- Fixed various outdated interfaces to functions&#10;- Updated H&amp;HNeuronSimulatie.py for the new features &#10;- Renamed H&amp;HNeuronSimulatie.py to HnHNeuronSimulatie.py&#10;- Changed notifications to be uniform. Now  in the form of: (class) Message and (class %id) Message&#10;- Added various checks to prevent bugs with manual addition of synapses and neurons&#10;- Added support for multiple types of synapses and neurons within a network. (This support was dropped and added again)&#10;- Now Recorder option 'withTime' is no longer ignored.&#10;- Removed Procpar and afflicted code">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Engine/__init__.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NeuronNetInterface/.idea/.name" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NeuronNetInterface/.idea/NeuronNetInterface.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NeuronNetInterface/.idea/encodings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NeuronNetInterface/.idea/jsLibraryMappings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NeuronNetInterface/.idea/misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NeuronNetInterface/.idea/modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NeuronNetInterface/.idea/vcs.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NeuronNetInterface/.idea/workspace.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NeuronNetInterface/content/mainMenu.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NeuronNetInterface/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NeuronNetInterface/js/main.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NeuronNetInterface/menu/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NeuronNetInterface/menu/styles.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scripts/neuronNetData.pRek" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/NeuronNet.iml" afterPath="$PROJECT_DIR$/.idea/NeuronNet.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Engine/ENNet.py" afterPath="$PROJECT_DIR$/Engine/ENNet.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scripts/HnHNeuronSimulation.py" afterPath="$PROJECT_DIR$/Scripts/HnHNeuronSimulation.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gpl.txt" afterPath="$PROJECT_DIR$/gpl.txt" />
     </list>
     <ignored path="NeuronNet.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -44,41 +30,17 @@
       <file leaf-file-name="ENNet.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Engine/ENNet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="353">
-              <caret line="427" column="29" selection-start-line="427" selection-start-column="29" selection-end-line="427" selection-end-column="29" />
+            <state relative-caret-position="574">
+              <caret line="470" column="30" selection-start-line="470" selection-start-column="30" selection-end-line="470" selection-end-column="30" />
               <folding>
                 <element signature="e#718#729#0" expanded="true" />
+                <marker date="1460628708382" expanded="true" signature="16098:20520" placeholder="..." />
+                <marker date="1460628708382" expanded="true" signature="16696:17013" placeholder="..." />
+                <marker date="1460628708382" expanded="true" signature="17055:17192" placeholder="..." />
+                <marker date="1460628708382" expanded="true" signature="17224:17647" placeholder="..." />
+                <marker date="1460628708382" expanded="true" signature="17444:17647" placeholder="..." />
+                <marker date="1460628708382" expanded="true" signature="17504:17647" placeholder="..." />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-480">
-              <caret line="57" column="43" selection-start-line="57" selection-start-column="43" selection-end-line="57" selection-end-column="43" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="interactiveshell.py" pinned="false" current-in-tab="false">
-        <entry file="file://C:/Anaconda3/Lib/site-packages/IPython/core/interactiveshell.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51170">
-              <caret line="3078" column="25" selection-start-line="3078" selection-start-column="25" selection-end-line="3078" selection-end-column="25" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="peak.py" pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Anaconda3/Lib/site-packages/PeakUtils-1.0.1-py3.5.egg!/peakutils/peak.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="816">
-              <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -95,54 +57,27 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_pydev_execfile.py" pinned="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pool.py" pinned="false" current-in-tab="false">
-        <entry file="file://C:/Anaconda3/Lib/multiprocessing/pool.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="10217">
-              <caret line="607" column="0" selection-start-line="607" selection-start-column="0" selection-end-line="607" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pydevd.py" pinned="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="25432">
-              <caret line="1531" column="0" selection-start-line="1531" selection-start-column="0" selection-end-line="1531" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HnHNeuronSimulation.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="HnHNeuronSimulation.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Scripts/HnHNeuronSimulation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="115">
-              <caret line="114" column="17" selection-start-line="114" selection-start-column="17" selection-end-line="114" selection-end-column="17" />
+            <state relative-caret-position="302">
+              <caret line="135" column="7" selection-start-line="135" selection-start-column="7" selection-end-line="135" selection-end-column="48" />
               <folding>
                 <element signature="e#718#739#0" expanded="true" />
+                <marker date="1460628708394" expanded="true" signature="846:5868" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ENN_Models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Engine/ENN_Models.py">
+      <file leaf-file-name="python27-ca2VideoMaker.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Engine/python27-ca2VideoMaker.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2329">
-              <caret line="138" column="47" selection-start-line="138" selection-start-column="47" selection-end-line="138" selection-end-column="47" />
-              <folding />
+            <state relative-caret-position="391">
+              <caret line="23" column="7" selection-start-line="23" selection-start-column="7" selection-end-line="23" selection-end-column="7" />
+              <folding>
+                <element signature="e#332#347#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -178,6 +113,7 @@
         <option value="$PROJECT_DIR$/test.csv" />
         <option value="$PROJECT_DIR$/Scripts/HnHNeuronSimulation.py" />
         <option value="$PROJECT_DIR$/Engine/ENNet.py" />
+        <option value="$PROJECT_DIR$/Engine/python27-ca2VideoMaker.py" />
       </list>
     </option>
   </component>
@@ -213,7 +149,7 @@
     <OptionsSetting value="true" id="Update" />
     <OptionsSetting value="true" id="Status" />
     <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="1" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectView">
@@ -582,15 +518,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13486141" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3340494" sideWeight="0.50208336" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3610811" sideWeight="0.49791667" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36038962" sideWeight="0.49791667" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32792208" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3300866" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3300866" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.52111113" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
@@ -644,16 +580,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Engine/ENNet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#718#729#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Anaconda3/Lib/http/server.py" />
     <entry file="file://$PROJECT_DIR$/Start.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -689,6 +615,7 @@
           <caret line="31" column="10" selection-start-line="31" selection-start-column="10" selection-end-line="31" selection-end-column="10" />
           <folding>
             <element signature="e#718#739#0" expanded="true" />
+            <marker date="1460628708394" expanded="true" signature="846:5868" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -706,6 +633,12 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#718#729#0" expanded="true" />
+            <marker date="1460628708382" expanded="true" signature="16098:20520" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="16696:17013" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="17055:17192" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="17224:17647" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="17444:17647" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="17504:17647" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -730,6 +663,7 @@
           <caret line="31" column="10" selection-start-line="31" selection-start-column="10" selection-end-line="31" selection-end-column="10" />
           <folding>
             <element signature="e#718#739#0" expanded="true" />
+            <marker date="1460628708394" expanded="true" signature="846:5868" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -754,6 +688,12 @@
           <caret line="378" column="71" selection-start-line="378" selection-start-column="71" selection-end-line="378" selection-end-column="71" />
           <folding>
             <element signature="e#718#729#0" expanded="true" />
+            <marker date="1460628708382" expanded="true" signature="16098:20520" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="16696:17013" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="17055:17192" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="17224:17647" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="17444:17647" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="17504:17647" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -778,6 +718,7 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#718#739#0" expanded="true" />
+            <marker date="1460628708394" expanded="true" signature="846:5868" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -809,6 +750,12 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#718#729#0" expanded="true" />
+            <marker date="1460628708382" expanded="true" signature="16098:20520" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="16696:17013" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="17055:17192" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="17224:17647" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="17444:17647" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="17504:17647" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -826,6 +773,7 @@
           <caret line="35" column="40" selection-start-line="35" selection-start-column="40" selection-end-line="35" selection-end-column="40" />
           <folding>
             <element signature="e#718#739#0" expanded="true" />
+            <marker date="1460628708394" expanded="true" signature="846:5868" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -857,6 +805,12 @@
           <caret line="342" column="29" selection-start-line="342" selection-start-column="29" selection-end-line="342" selection-end-column="29" />
           <folding>
             <element signature="e#718#729#0" expanded="true" />
+            <marker date="1460628708382" expanded="true" signature="16098:20520" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="16696:17013" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="17055:17192" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="17224:17647" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="17444:17647" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="17504:17647" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -874,6 +828,7 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#718#739#0" expanded="true" />
+            <marker date="1460628708394" expanded="true" signature="846:5868" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -891,6 +846,12 @@
           <caret line="342" column="29" selection-start-line="342" selection-start-column="29" selection-end-line="342" selection-end-column="29" />
           <folding>
             <element signature="e#718#729#0" expanded="true" />
+            <marker date="1460628708382" expanded="true" signature="16098:20520" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="16696:17013" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="17055:17192" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="17224:17647" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="17444:17647" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="17504:17647" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -908,6 +869,7 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#718#739#0" expanded="true" />
+            <marker date="1460628708394" expanded="true" signature="846:5868" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1014,22 +976,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Engine/ENNet.py">
+    <entry file="file://$PROJECT_DIR$/Scripts/HnHNeuronSimulation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="353">
-          <caret line="427" column="29" selection-start-line="427" selection-start-column="29" selection-end-line="427" selection-end-column="29" />
+        <state relative-caret-position="302">
+          <caret line="135" column="7" selection-start-line="135" selection-start-column="7" selection-end-line="135" selection-end-column="48" />
           <folding>
-            <element signature="e#718#729#0" expanded="true" />
+            <element signature="e#718#739#0" expanded="true" />
+            <marker date="1460628708394" expanded="true" signature="846:5868" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Scripts/HnHNeuronSimulation.py">
+    <entry file="file://$PROJECT_DIR$/Engine/ENNet.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="115">
-          <caret line="114" column="17" selection-start-line="114" selection-start-column="17" selection-end-line="114" selection-end-column="17" />
+        <state relative-caret-position="574">
+          <caret line="470" column="30" selection-start-line="470" selection-start-column="30" selection-end-line="470" selection-end-column="30" />
           <folding>
-            <element signature="e#718#739#0" expanded="true" />
+            <element signature="e#718#729#0" expanded="true" />
+            <marker date="1460628708382" expanded="true" signature="16098:20520" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="16696:17013" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="17055:17192" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="17224:17647" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="17444:17647" placeholder="..." />
+            <marker date="1460628708382" expanded="true" signature="17504:17647" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Engine/python27-ca2VideoMaker.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="7" selection-start-line="23" selection-start-column="7" selection-end-line="23" selection-end-column="7" />
+          <folding>
+            <element signature="e#332#347#0" expanded="true" />
           </folding>
         </state>
       </provider>

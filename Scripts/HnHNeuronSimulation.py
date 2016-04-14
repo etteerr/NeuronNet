@@ -132,6 +132,8 @@ if __name__ == '__main__':
     #m1.save('neuronNetData')
     m1.saveToXML('neuronNetData')
     m1.getSpikeEventtimes(var='Vm', neurons=None, file='spikeEvents')
+    m1.setNetworkStructure(sim.getNetwork(id1), synapseWeightVar='w')
+    m1.saveNetworkStucture(file='networkStruct')
 
     pl.figure(1)
     for i in m1['Vm'].keys():

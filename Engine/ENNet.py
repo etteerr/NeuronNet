@@ -454,7 +454,6 @@ class Recorder(object):
         setattr(self, key, value)
 
     def save(self, file):
-        import json
         try:
             with open(file + ".pRek", 'wb') as fHandle:
                 p = pickle.Pickler(fHandle)
@@ -463,6 +462,11 @@ class Recorder(object):
         except MemoryError:
             print('Memory error while pickle dumping results, switching to Binary')
             self.saveToXML(file)
+
+    def saveNetworkStucture(self, file):
+        with open(file + '.nstruct', 'wb') as fhandle:
+            p = pickle.Pickler(fhandle)
+            p.dump(self._networkStucture)
 
     def saveToXML(self, file):
         '''

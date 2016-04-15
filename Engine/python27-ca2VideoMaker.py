@@ -11,6 +11,9 @@ networkx    conda install networkx (or pip)     https://networkx.github.io/docum
 import networkx
 #import pylab as pl
 import pygraphviz
+import numpy as np
+from numpy import exp
+import copy
 
 
 
@@ -26,6 +29,33 @@ def generateNetworkCoordinates(G, layout='dot'):
     ag.write(path='dot.dot')
     G = networkx.nx_agraph.from_agraph(ag)
     return G
+
+def spikeEventsToCa2Trace(spikeEventsData, start=0, end=None, dt=0.01):
+    '''
+    Converts spike events to a [Ca2+] trace. Time stamps must be in ms.
+    :param spikeEventsData: a Dict with neuron Id's as keys and vectors with timestamps.
+    :param start: Start time
+    :param end: end time
+    :param dt: time resolution (independend of input)
+    :return:
+    '''
+    tauOn = 0.01 #s
+    ampFast = 7
+    tauFast = 0.5
+    ampSlow = 0
+    tauSlow = 0
+    x = np.linspace(start, end, np.ceil((end-start)/dt)+1)
+    spikeForm = (1 - (exp(-(x - 0) / tauOn))) * (ampFast * exp(-(x - 0) / tauFast))# + (ampSlow * exp(-(x - 0) / tauSlow))
+    spikeForm[np.isnan(spikeForm)] = 0
+    res = {}
+    for (key, data) in spikeEventsData.items():
+        tx = np.zeros(np.ceil((end-start)/dt)+1)
+        for y in data:
+            if y > start and y < end:
+                index = np.floor((y-start)*dt)
+                tx[index] += 1
+        np.convolve(tx, spikeForm)
+        res[key] = tx
 
 '''
 g['0']

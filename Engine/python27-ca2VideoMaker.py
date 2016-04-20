@@ -30,6 +30,25 @@ def generateNetworkCoordinates(G, layout='dot'):
     G = networkx.nx_agraph.from_agraph(ag)
     return G
 
+def spikeEventsFromFile(file, mode='r'):
+    """
+    Loads spike event data from file. (CSV style)
+    CSV must have per row: [id],event1, event2, ...
+    :param file: full filename inc ext.
+    :param mode: open(file, mode) file modus
+    :return: returns data
+    """
+    import csv
+    res = {}
+    with open(file, mode) as f:
+        reader = csv.reader(f)
+        for row in reader:
+            key = row[0]
+            data = row[1:len(row)]
+            res[key] = data
+    return res
+
+
 def spikeEventsToCa2Trace(spikeEventsData, start=0, end=None, dt=0.01):
     '''
     Converts spike events to a [Ca2+] trace. Time stamps must be in ms.

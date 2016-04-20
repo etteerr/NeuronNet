@@ -14,6 +14,7 @@ import pygraphviz
 import numpy as np
 from numpy import exp
 import copy
+import sys
 
 
 
@@ -45,6 +46,7 @@ def spikeEventsFromFile(file, mode='r'):
         for row in reader:
             key = row[0]
             data = row[1:len(row)]
+            data = [float(x) for x in data]
             res[key] = data
     return res
 
@@ -63,6 +65,15 @@ def spikeEventsToCa2Trace(spikeEventsData, start=0, end=None, dt=0.01):
     tauFast = 0.5
     ampSlow = 0
     tauSlow = 0
+    if end is None:
+        #Find max spike time
+        tmp = []
+        for (key, data) in spikeEventsData.items():
+            tmp.append(max(data)) # we dont assume the last value is the max value
+        end = max(tmp)
+        del tmp
+
+    old = np.seterr(under='ignore')
     x = np.linspace(start, end, np.ceil((end-start)/dt)+1)
     spikeForm = (1 - (exp(-(x - 0) / tauOn))) * (ampFast * exp(-(x - 0) / tauFast))# + (ampSlow * exp(-(x - 0) / tauSlow))
     spikeForm[np.isnan(spikeForm)] = 0
@@ -75,6 +86,7 @@ def spikeEventsToCa2Trace(spikeEventsData, start=0, end=None, dt=0.01):
                 tx[index] += 1
         np.convolve(tx, spikeForm)
         res[key] = tx
+    np.seterr(** old)
 
 '''
 g['0']

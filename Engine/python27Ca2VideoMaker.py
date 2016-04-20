@@ -9,12 +9,8 @@ PyGraphvis  http://pygraphviz.github.io
 networkx    conda install networkx (or pip)     https://networkx.github.io/documentation/latest/index.html
 '''
 import networkx
-#import pylab as pl
-import pygraphviz
 import numpy as np
 from numpy import exp
-import copy
-import sys
 
 
 
@@ -44,20 +40,22 @@ def spikeEventsFromFile(file, mode='r'):
     with open(file, mode) as f:
         reader = csv.reader(f)
         for row in reader:
-            key = row[0]
-            data = row[1:len(row)]
-            data = [float(x) for x in data]
-            res[key] = data
+            if len(row) > 2:
+                key = row[0]
+                data = row[1:len(row)]
+                data = [float(x) for x in data]
+                res[key] = data
     return res
 
 
-def spikeEventsToCa2Trace(spikeEventsData, start=0, end=None, dt=0.01):
+def spikeEventsToCa2Trace(spikeEventsData, start=0, end=None, dt=0.01, spikeForm=None):
     '''
     Converts spike events to a [Ca2+] trace. Time stamps must be in ms.
     :param spikeEventsData: a Dict with neuron Id's as keys and vectors with timestamps.
     :param start: Start time
     :param end: end time
     :param dt: time resolution (independend of input)
+    :param spikeForm: The spike form to be convolved over the spike data
     :return:
     '''
     tauOn = 0.01 #s
@@ -74,19 +72,21 @@ def spikeEventsToCa2Trace(spikeEventsData, start=0, end=None, dt=0.01):
         del tmp
 
     old = np.seterr(under='ignore')
-    x = np.linspace(start, end, np.ceil((end-start)/dt)+1)
-    spikeForm = (1 - (exp(-(x - 0) / tauOn))) * (ampFast * exp(-(x - 0) / tauFast))# + (ampSlow * exp(-(x - 0) / tauSlow))
-    spikeForm[np.isnan(spikeForm)] = 0
+    if spikeForm is None:
+        x = np.linspace(0, 10, np.ceil(10/dt)+1)
+        spikeForm = (1 - (exp(-(x - 0) / tauOn))) * (ampFast * exp(-(x - 0) / tauFast))# + (ampSlow * exp(-(x - 0) / tauSlow))
+        spikeForm[np.isnan(spikeForm)] = 0
     res = {}
     for (key, data) in spikeEventsData.items():
         tx = np.zeros(np.ceil((end-start)/dt)+1)
         for y in data:
-            if y > start and y < end:
-                index = np.floor((y-start)*dt)
+            if y > start and y <= end:
+                index = np.floor((y-start)/dt)
                 tx[index] += 1
-        np.convolve(tx, spikeForm)
+        tx = np.convolve(tx, spikeForm)
         res[key] = tx
     np.seterr(** old)
+    return res
 
 '''
 g['0']

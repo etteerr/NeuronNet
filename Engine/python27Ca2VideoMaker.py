@@ -124,13 +124,51 @@ def addGaussNoise(data, sd=0.4):
 
 
 
-def renderCa2Video(data, networkStructure, output='video.avi', fps=120.0, size=(800,600), isColor=False):
+def renderCa2Video(data, networkStructure, output='video.avi', fps=120.0, size=(800,600), radius=4, max=(255,255,255), dt=0.01):
+    #dt in ms
     import networkx as nx
     import cv2
+    isColor = True
     G = nx.circular_layout(networkStructure, dim = 2, scale = 1)
     video = cv2.VideoWriter(output, cv2.VideoWriter_fourcc('M','J','P','G'), fps, size, isColor )
     if ~video.isOpened():
         print('Unable to open video file, are you missing "opencv_mmpeg.dll"?')
         return False
+
+    # Reformat data and assign positions
+    positions = []
+    array = []
+    length = len(data[data.keys()[0]])
+    index = 0
+    for key in data.keys():
+        (x,y) = G[key]
+        positions[index] = (int(np.round(x * size[0])), int(np.round(x * size[1])))
+        array[index] = data[key]
+        if not length == len(data[key]):
+            raise AssertionError('Not all data lengths are equal')
+
     # Create base image
-    frame = np.zeros(size[1], size[0], 3)
+    frame = np.zeros((size[1], size[0], 3), np.uint8)
+
+    # Find max value
+    maxy = max(max(array))
+
+    # Calculate frame bin size
+    dt = dt / 1000
+    frametime = 1/fps
+    stepsPerFrame = np.ceil(frametime/dt)
+    prev = 0
+    # Frame renderer
+    for i in range(stepsPerFrame-1,length-1,stepsPerFrame):
+        for n in range(0,len(positions)-1):
+            value = np.mean(array[n][prev:i]) / maxy
+            cv2.circle(frame, positions[n], (255,255,255)*value, -1)
+        video.write(frame)
+        prev = i + 1
+
+    video.release()
+    print('Done!')
+
+
+
+

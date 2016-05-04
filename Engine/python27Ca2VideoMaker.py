@@ -124,25 +124,29 @@ def addGaussNoise(data, sd=0.4):
 
 
 
-def renderCa2Video(data, networkStructure, output='video.avi', fps=120.0, size=(800,600), radius=4, maxrgb=[255, 255, 255], dt=0.01, mode='mean'):
+def renderCa2Video(data, netpos, output='video.avi', fps=120.0, size=(800,600), radius=4, maxrgb=[255, 255, 255], dt=0.01, mode='mean'):
     """
     Renders a video based on the data and the network structure
     :param data: A dictionary with the data. Keys must correspond to the keys of the networkx (networkStructure)
-    :param networkStructure: The networkx object
+    :param netpos: The locations of every neurons: dict { neuronID: [x,y] } where x and y are doubles between -1 and 1
     :param output: Name of the output
     :param fps: Frames per seconds. Please choose a value that results in a rounded answer for frametime/dt where frametime is 1/fps
     :param size: video size
     :param radius: size of the neurons in pixels
     :param maxrgb: maximum value of RGB representation of the data
     :param dt: time step size
-    :param mode: how the inter frame data is used, modes: 'mean' | 'sum'
+    :param mode: how the inter frame data is used, modes: 'mean' | 'sum' | 'point' | 'highest'
+     mean: Average over all interframe samples
+     sum:  Sum over all interframe samples (may cause constant max value due to max limit)
+     point:All interframe samples are dumped except for the last one
+     highest: Highest value is taken
     :return:
     """
     #dt in ms
     import networkx as nx
     import cv2
     isColor = True
-    G = nx.circular_layout(networkStructure, dim = 2, scale = 1)
+
     video = cv2.VideoWriter(output, cv2.VideoWriter_fourcc('M','J','P','G'), fps, size, isColor )
     if not video.isOpened():
         print('Unable to open video file, are you missing "opencv_mmpeg.dll"?')
@@ -153,8 +157,8 @@ def renderCa2Video(data, networkStructure, output='video.avi', fps=120.0, size=(
     dataarray = []
     length = len(data[data.keys()[0]])
     for key in data.keys():
-        (x,y) = G[key]
-        positions.append( (int(np.round(((x+1)/2) * size[0])), int(np.round(((y+1)/2) * size[1]))) )
+        (x,y) = netpos[key]
+        positions.append( (int(np.round(((np.double(x)+1.0)/2.0) * np.double(size[0]))), int(np.round(((np.double(y)+1.0)/2.0) * np.double(size[1])))) )
         dataarray.append(data[key])
         if not length == len(data[key]):
             raise AssertionError('Not all data lengths are equal')
@@ -185,6 +189,10 @@ def renderCa2Video(data, networkStructure, output='video.avi', fps=120.0, size=(
         modefun = np.mean
     elif mode is 'sum':
         modefun = np.sum
+    elif mode is 'point':
+        modefun = lastElm
+    elif mode is 'highest':
+        modefun = np.max
 
     # Frame renderer
     for i in range(stepsPerFrame-1,length-1,stepsPerFrame):
@@ -198,6 +206,8 @@ def renderCa2Video(data, networkStructure, output='video.avi', fps=120.0, size=(
     video.release()
     print('Done!')
 
+def lastElm(data):
+    return data[-1]
 
 
 

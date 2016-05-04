@@ -531,7 +531,7 @@ class Recorder(object):
             return pickle.load(fHandle)
 
 
-    def getSpikeEventtimes(self, var='Vm', neurons=None, file=None):
+    def getSpikeEventtimes(self, var='Vm', async=True, neurons=None, file=None):
         """
         Calculates the spike events and returns an array containing the timestamps of the spikes.
         This is calculated over var for each neuron in neurons. If neurons is None, all neurons are used.
@@ -540,28 +540,42 @@ class Recorder(object):
         :return: Array of spike events per neuron
         """
         import csv
-        p = Pool()
-        rets = []
-        if neurons is None:
-            neurons = self._neuronIds
+        if async:
+            p = Pool()
+            rets = []
+            if neurons is None:
+                neurons = self._neuronIds
 
-        for nId in neurons:
-            data = self[var][nId]
-            rets.append((nId, p.apply_async(self._calculateSpikeEventtimes, (data, self['dt']))))
+            for nId in neurons:
+                data = self[var][nId]
+                rets.append((nId, p.apply_async(self._calculateSpikeEventtimes, (data, self['dt']))))
 
-        data = {}
-        if file is not None:
-            with open(file+'.txt','w') as f:
-                writer = csv.writer(f)
+            data = {}
+            if file is not None:
+                with open(file+'.txt','w') as f:
+                    writer = csv.writer(f)
+                    for (nId, pId) in rets:
+                        data[nId] = pId.get()
+                        writer.writerow([nId] + data[nId])
+            else:
                 for (nId, pId) in rets:
                     data[nId] = pId.get()
-                    writer.writerow([nId] + data[nId])
-        else:
-            for (nId, pId) in rets:
-                data[nId] = pId.get()
 
-        p.close()
-        p.join()
+            p.close()
+            p.join()
+        else:
+            if neurons is None:
+                neurons = self._neuronIds
+
+            data = {}
+            for nId in neurons:
+                data[nId] = self._calculateSpikeEventtimes(self[var][nId], self['dt'])
+
+            if file is not None:
+                with open(file + '.txt', 'w') as f:
+                    writer = csv.writer(f)
+                    for nId in data.keys():
+                        writer.writerow([nId] + data[nId])
 
         return data
 

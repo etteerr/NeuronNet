@@ -124,7 +124,7 @@ def addGaussNoise(data, sd=0.4):
 
 
 
-def renderCa2Video(data, netpos, output='video.avi', fps=120.0, size=(800,600), radius=4, maxrgb=[255, 255, 255], dt=0.01, mode='mean'):
+def renderCa2Video(data, netpos, output='video.avi', fps=120.0, size=(800,600), radius=4, maxrgb=[255, 255, 255], dt=0.01, mode='mean', noisemax=10, noiserep=256):
     """
     Renders a video based on the data and the network structure
     :param data: A dictionary with the data. Keys must correspond to the keys of the networkx (networkStructure)
@@ -140,6 +140,8 @@ def renderCa2Video(data, netpos, output='video.avi', fps=120.0, size=(800,600), 
      sum:  Sum over all interframe samples (may cause constant max value due to max limit)
      point:All interframe samples are dumped except for the last one
      highest: Highest value is taken
+     :param noisemax: Maximum value ( 0-255) for noise (all channels)
+     :param noiserep: x-frames of noise repeated (for performance)
     :return:
     """
     #dt in ms
@@ -194,13 +196,28 @@ def renderCa2Video(data, netpos, output='video.avi', fps=120.0, size=(800,600), 
     elif mode is 'highest':
         modefun = np.max
 
+    # Pre calculate noise
+    nnframes = np.int32(fps)
+    noiseframes = []
+    for i in range(0,nnframes):
+        uninoise = np.uint8(np.random.random_integers(0, noisemax, (size[1], size[0])))
+        nframe = np.zeros((size[1], size[0], 3), np.uint8)
+        nframe[:, :, 0] += uninoise
+        nframe[:, :, 1] += uninoise
+        nframe[:, :, 2] += uninoise
+        noiseframes.append(nframe)
+
     # Frame renderer
     for i in range(stepsPerFrame-1,length-1,stepsPerFrame):
         for n in range(0,len(positions)):
             value = modefun(dataarray[n][prev:i]) / maxy
             value = maxrgb * value
             cv2.circle(frame, positions[n], radius, tuple(np.round(value).astype(int)), -1)
+        # Add noise
+        frame += noiseframes[np.mod(i,nnframes)]
+        cv2.blur(frame, (5,5))
         video.write(frame)
+        frame = np.zeros((size[1], size[0], 3), np.uint8)
         prev = i + 1
 
     video.release()

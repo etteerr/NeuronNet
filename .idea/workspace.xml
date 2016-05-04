@@ -3,8 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="c5468e22-4242-4315-9a9d-571600069c19" name="Default" comment="Changed Working of ENNet&#10;- Removed parallel processing within networks&#10;- Added parallel processing of networks&#10;- Removed usage of Procpar, Now using multiprocessing.Pool&#10;- Fixed all synapses connecting from source to source&#10;- Fixed various outdated interfaces to functions&#10;- Updated H&amp;HNeuronSimulatie.py for the new features &#10;- Renamed H&amp;HNeuronSimulatie.py to HnHNeuronSimulatie.py&#10;- Changed notifications to be uniform. Now  in the form of: (class) Message and (class %id) Message&#10;- Added various checks to prevent bugs with manual addition of synapses and neurons&#10;- Added support for multiple types of synapses and neurons within a network. (This support was dropped and added again)&#10;- Now Recorder option 'withTime' is no longer ignored.&#10;- Removed Procpar and afflicted code">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Engine/ENNet.py" afterPath="$PROJECT_DIR$/Engine/ENNet.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Engine/python27Ca2VideoMaker.py" afterPath="$PROJECT_DIR$/Engine/python27Ca2VideoMaker.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scripts/ca2videotest.py" afterPath="$PROJECT_DIR$/Scripts/ca2videotest.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dot.dot" afterPath="$PROJECT_DIR$/dot.dot" />
     </list>
     <ignored path="NeuronNet.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,8 +30,8 @@
       <file leaf-file-name="ENNet.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Engine/ENNet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7599">
-              <caret line="456" column="12" selection-start-line="456" selection-start-column="12" selection-end-line="456" selection-end-column="12" />
+            <state relative-caret-position="-327">
+              <caret line="409" column="0" selection-start-line="409" selection-start-column="0" selection-end-line="409" selection-end-column="0" />
               <folding>
                 <element signature="e#718#729#0" expanded="true" />
               </folding>
@@ -52,8 +54,8 @@
       <file leaf-file-name="HnHNeuronSimulation.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Scripts/HnHNeuronSimulation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="578">
-              <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+            <state relative-caret-position="244">
+              <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="26" />
               <folding>
                 <element signature="e#718#739#0" expanded="true" />
               </folding>
@@ -64,8 +66,8 @@
       <file leaf-file-name="python27Ca2VideoMaker.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Engine/python27Ca2VideoMaker.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="479">
-              <caret line="142" column="12" selection-start-line="142" selection-start-column="12" selection-end-line="142" selection-end-column="12" />
+            <state relative-caret-position="421">
+              <caret line="161" column="16" selection-start-line="161" selection-start-column="16" selection-end-line="161" selection-end-column="27" />
               <folding>
                 <element signature="e#332#347#0" expanded="true" />
               </folding>
@@ -76,11 +78,21 @@
       <file leaf-file-name="ca2videotest.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Scripts/ca2videotest.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+            <state relative-caret-position="-11">
+              <caret line="49" column="41" selection-start-line="49" selection-start-column="41" selection-end-line="49" selection-end-column="41" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ENN_Models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Engine/ENN_Models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="380">
+              <caret line="146" column="29" selection-start-line="146" selection-start-column="29" selection-end-line="146" selection-end-column="29" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -156,21 +168,21 @@
         <option value="$PROJECT_DIR$/Scripts/spikeEventsTest.py" />
         <option value="$PROJECT_DIR$/test.csv" />
         <option value="$PROJECT_DIR$/Scripts/HnHNeuronSimulation.py" />
-        <option value="$PROJECT_DIR$/Engine/ENNet.py" />
         <option value="$PROJECT_DIR$/Engine/python27-ca2VideoMaker.py" />
         <option value="$PROJECT_DIR$/Engine/__init__.py" />
         <option value="$PROJECT_DIR$/Engine/ca2videotest.py" />
         <option value="$PROJECT_DIR$/ca2videotest.py" />
-        <option value="$PROJECT_DIR$/Scripts/ca2videotest.py" />
         <option value="$PROJECT_DIR$/Engine/python27Ca2VideoMaker.py" />
+        <option value="$PROJECT_DIR$/Engine/ENNet.py" />
+        <option value="$PROJECT_DIR$/Scripts/ca2videotest.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1" />
-    <option name="y" value="1" />
-    <option name="width" value="1918" />
-    <option name="height" value="1038" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -216,6 +228,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -264,8 +278,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -569,19 +581,19 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1" y="1" width="1918" height="1038" extended-state="6" />
-    <editor active="false" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17007536" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14285715" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37513512" sideWeight="0.5074627" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30253026" sideWeight="0.4914712" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30194804" sideWeight="0.4914712" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32756758" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33076075" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26406926" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.52111113" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972974" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3751375" sideWeight="0.49253732" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37445888" sideWeight="0.49253732" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -622,11 +634,16 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/Engine/python27Ca2VideoMaker.py</url>
-          <line>159</line>
+          <line>161</line>
           <option name="timeStamp" value="49" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/Scripts/ca2videotest.py</url>
+          <line>71</line>
+          <option name="timeStamp" value="52" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="50" />
+      <option name="time" value="53" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -888,13 +905,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test.png" />
-    <entry file="file://$PROJECT_DIR$/Engine/ENN_Models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2329">
-          <caret line="138" column="47" selection-start-line="138" selection-start-column="47" selection-end-line="138" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Anaconda3/Lib/site-packages/PeakUtils-1.0.1-py3.5.egg!/peakutils/peak.py" />
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -937,26 +947,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Engine/ENNet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7599">
-          <caret line="456" column="12" selection-start-line="456" selection-start-column="12" selection-end-line="456" selection-end-column="12" />
-          <folding>
-            <element signature="e#718#729#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Scripts/HnHNeuronSimulation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-          <folding>
-            <element signature="e#718#739#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Anaconda/Lib/site-packages/matplotlib/backends/qt_compat.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1972">
@@ -991,10 +981,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Scripts/HnHNeuronSimulation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="244">
+          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="26" />
+          <folding>
+            <element signature="e#718#739#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Engine/ENN_Models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="146" column="29" selection-start-line="146" selection-start-column="29" selection-end-line="146" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Engine/ENNet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-327">
+          <caret line="409" column="0" selection-start-line="409" selection-start-column="0" selection-end-line="409" selection-end-column="0" />
+          <folding>
+            <element signature="e#718#729#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Scripts/ca2videotest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        <state relative-caret-position="-11">
+          <caret line="49" column="41" selection-start-line="49" selection-start-column="41" selection-end-line="49" selection-end-column="41" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
@@ -1003,8 +1021,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Engine/python27Ca2VideoMaker.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="479">
-          <caret line="142" column="12" selection-start-line="142" selection-start-column="12" selection-end-line="142" selection-end-column="12" />
+        <state relative-caret-position="421">
+          <caret line="161" column="16" selection-start-line="161" selection-start-column="16" selection-end-line="161" selection-end-column="27" />
           <folding>
             <element signature="e#332#347#0" expanded="true" />
           </folding>

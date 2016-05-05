@@ -23,9 +23,8 @@ G = {1:[0,0],
 '''
 if __name__ == '__main__':
     dt = 0.05
-    N = 50
     fps = 120.0
-    G = nx.fast_gnp_random_graph(N, p=0.7)
+    G = nx.fast_gnp_random_graph(N, p=0.3)
 
     synapseDict = {
         'I': ([0] * int(5 / dt)),
@@ -64,7 +63,7 @@ if __name__ == '__main__':
     for i in network.getNeuronIDs():
         simulator.getNetwork(id).getNeuronByID(i)['Istim'] = 0
 
-    simulator.simulate(500)
+    simulator.simulate(5000)
 
     # Analyse data and create trace
     rec = simulator.getRecorder(recID)

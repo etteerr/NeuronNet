@@ -23,9 +23,9 @@ G = {1:[0,0],
 '''
 if __name__ == '__main__':
     dt = 0.05
-    N = 10
+    N = 50
     fps = 120.0
-    G = nx.fast_gnp_random_graph(N, p=0.4)
+    G = nx.fast_gnp_random_graph(N, p=0.7)
 
     synapseDict = {
         'I': ([0] * int(5 / dt)),
@@ -47,7 +47,8 @@ if __name__ == '__main__':
                           G,
                           True)
 
-    network.getNeuronByID(0)['Istim'] = 5
+    for i in network.getNeuronIDs():
+        network.getNeuronByID(i)['Istim'] = 10
 
     id = simulator.addNetwork(network)
 
@@ -58,17 +59,18 @@ if __name__ == '__main__':
 
     #sim
 
-    simulator.simulate(10)
+    simulator.simulate(100)
 
-    simulator.getNetwork(id).getNeuronByID(0)['Istim'] = 0
+    for i in network.getNeuronIDs():
+        simulator.getNetwork(id).getNeuronByID(i)['Istim'] = 0
 
-    simulator.simulate(5000)
+    simulator.simulate(500)
 
     # Analyse data and create trace
     rec = simulator.getRecorder(recID)
     spikeEvents = rec.getSpikeEventtimes(async=False)
     G = ca.generateNetworkCoordinates(G)
-    caTrace = ca.spikeEventsToCa2Trace(spikeEvents,dt=dt)
+    caTrace = ca.spikeEventsToCa2Trace(spikeEvents,dt=dt, end=5100)
     caTrace = ca.addGaussNoise(caTrace)
 
 

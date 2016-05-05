@@ -14,7 +14,8 @@ from numpy import exp
 
 
 
-def generateNetworkCoordinates(G, layout='dot'):
+def generateNetworkCoordinates(G, forRadius=4, forSize=(800,600)):#, layout='dot'):
+    '''
     """
     generates network coordinates in the attribute 'pos'
     :param G:
@@ -25,6 +26,14 @@ def generateNetworkCoordinates(G, layout='dot'):
     ag.layout(prog=layout)
     ag.write(path='dot.dot')
     G = networkx.nx_agraph.from_agraph(ag)
+    '''
+    import networkx as nx
+    if forSize[0] > forSize[1]:
+        scale = 1.0-(float(forRadius)/float(forSize[1]))
+    else:
+        scale = 1.0-(float(forRadius)/float(forSize[0]))
+
+    G = nx.random_layout(G, dim=2, scale=scale, center=(0,0))
     return G
 
 def spikeEventsFromFile(file, mode='r'):
@@ -122,7 +131,8 @@ def addGaussNoise(data, sd=0.4):
 
 
 
-
+def extractPosDataFromNetworkx(G):
+    pass
 
 def renderCa2Video(data, netpos, output='video.avi', fps=120.0, size=(800,600), radius=4, maxrgb=[255, 255, 255], dt=0.01, mode='mean', noisemax=10, noiserep=256):
     """

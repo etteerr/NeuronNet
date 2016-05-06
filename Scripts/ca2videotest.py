@@ -3,6 +3,7 @@ import networkx as nx
 import Engine.python27Ca2VideoMaker as ca
 import Engine.ENNet as enn
 import Engine.ENN_Models as models
+import pickle
 #import pylab as pl
 
 
@@ -23,6 +24,7 @@ G = {1:[0,0],
 '''
 if __name__ == '__main__':
     dt = 0.05
+    N = 100
     fps = 120.0
     G = nx.fast_gnp_random_graph(N, p=0.3)
 
@@ -72,6 +74,8 @@ if __name__ == '__main__':
     caTrace = ca.spikeEventsToCa2Trace(spikeEvents,dt=dt, end=5100)
     caTrace = ca.addGaussNoise(caTrace)
 
+    with open('caTrace.dat', 'wb'):
+        pickle.dump(caTrace)
 
 
 

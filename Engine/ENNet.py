@@ -391,6 +391,7 @@ class Network:
                     self._id,
                     (runtime / stepCounter) * stepsRemaining, runtime))
                 sPassed = 0
+                sys.stdout.flush()
 
     def _localStep(self):
         if self._debugVerbose: t = clock()

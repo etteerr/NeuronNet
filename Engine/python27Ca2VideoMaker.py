@@ -33,7 +33,15 @@ def generateNetworkCoordinates(G, forRadius=4, forSize=(800,600)):#, layout='dot
     else:
         scale = 1.0-(float(forRadius)/float(forSize[0]))
 
-    G = nx.random_layout(G, dim=2, scale=scale, center=(0,0))
+    try:
+        G = nx.random_layout(G, dim=2, scale=scale, center=(0,0))
+    except TypeError: # Fixes the problem of having another version of nx
+        G = nx.random_layout(G, dim=2)
+        for (key,(x,y)) in G.items():
+            x = 2 * x - 1
+            y = 2 * y - 1
+            G[key] = [x,y]
+
     return G
 
 def spikeEventsFromFile(file, mode='r'):

@@ -369,7 +369,7 @@ class Network:
 
     ##################################### Local operations #####################################
     def localSim(self, timeline):
-        etaEvery = 10  # seconds (no more than 1 in 5 seconds)
+        etaEvery = 60  # seconds (no more than 1 in 5 seconds)
         sPassed = 0
         stepCounter = 0
         totalSteps = len(timeline)

@@ -356,7 +356,7 @@ class Network:
         for (_, recorder) in recorders.items():
             recorder['dt'] = self._dt
             if recorder._networkId == self._id and recorder._withTime:
-                recorder.timeline += timeline
+                recorder.timeline.append( timeline)
                 self._recorders.append(recorder)
 
         # Add to current timeline
@@ -435,18 +435,29 @@ class Network:
 
 
 class Recorder(object):
-    def __init__(self, networkId, neuronIds, variables=['Vm'], withTime=False):  # TODO: WithTime
+    def __init__(self, networkId, neuronIds, variables=['Vm'], withTime=False, toDisk=False, toDiskDir='defaultDir', buffersize=128):  # TODO: WithTime
+        # Buffer size in items
         self._networkId = networkId
         self._neuronIds = neuronIds
         self._variables = variables
         self._withTime = withTime
-        self.timeline = []
         self._networkStucture = None
 
-        for var in variables:
-            self[var] = {}
-            for i in neuronIds:
-                self[var][i] = []
+        if toDisk:
+            import Engine.DiskList as dl
+            import os
+            os.mkdir(toDiskDir)
+            self.timeline = dl.DiskList(os.path.join(toDiskDir, 'timeline'))
+            for var in variables:
+                self[var] = {}
+                for i in neuronIds:
+                    self[var][i] = dl.DiskList(os.path.join(toDiskDir, 'var_%s_neuron_%s' % (var, i)))
+        else:
+            self.timeline = []
+            for var in variables:
+                self[var] = {}
+                for i in neuronIds:
+                    self[var][i] = []
 
     def __getitem__(self, item):
         return getattr(self, item)

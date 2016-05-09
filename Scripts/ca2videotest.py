@@ -24,7 +24,7 @@ G = {1:[0,0],
 '''
 if __name__ == '__main__':
     dt = 0.05
-    N = 100
+    N = 10
     fps = 120.0
     G = nx.fast_gnp_random_graph(N, p=0.3)
 
@@ -54,7 +54,7 @@ if __name__ == '__main__':
     id = simulator.addNetwork(network)
 
     # Add recorder
-    rec = enn.Recorder(id, network.getNeuronIDs(), withTime=True)
+    rec = enn.Recorder(id, network.getNeuronIDs(), withTime=True, toDisk=True, toDiskDir='TestDir')
 
     recID = simulator.addRecorder(rec)
 
@@ -65,7 +65,7 @@ if __name__ == '__main__':
     for i in network.getNeuronIDs():
         simulator.getNetwork(id).getNeuronByID(i)['Istim'] = 0
 
-    simulator.simulate(5000)
+    simulator.simulate(100)
 
     # Analyse data and create trace
     rec = simulator.getRecorder(recID)

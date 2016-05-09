@@ -68,15 +68,45 @@ if __name__ == '__main__':
     simulator.simulate(5000)
 
     # Analyse data and create trace
-    rec = simulator.getRecorder(recID)
-    spikeEvents = rec.getSpikeEventtimes(async=False)
-    G = ca.generateNetworkCoordinates(G)
-    caTrace = ca.spikeEventsToCa2Trace(spikeEvents,dt=dt, end=5100)
-    caTrace = ca.addGaussNoise(caTrace)
+    import time
 
+    start = time.clock()
+    print('Retrieving recorder...')
+    rec = simulator.getRecorder(recID)
+    print('Done (%.4f)' % (time.clock()-start))
+
+    start = time.clock()
+    print('Generating spike events...')
+    spikeEvents = rec.getSpikeEventtimes(async=False)
+    print('Done (%.4f)' % (time.clock() - start))
+
+    print('Clearing variables...')
+    del(rec)
+    del(simulator)
+    del(network)
+
+    start = time.clock()
+    print('Generating network coordinates...')
+    G = ca.generateNetworkCoordinates(G)
+    print('Done (%.4f)' % (time.clock() - start))
+
+    start = time.clock()
+    print('Creating Ca2+ Trace...')
+    caTrace = ca.spikeEventsToCa2Trace(spikeEvents,dt=dt, end=5100)
+    print('Done (%.4f)' % (time.clock() - start))
+
+    start = time.clock()
+    print('Adding Gaussian noise to the trace...')
+    caTrace = ca.addGaussNoise(caTrace)
+    print('Done (%.4f)' % (time.clock() - start))
+
+    start = time.clock()
+    print('Saving trace...')
     with open('caTrace.dat', 'wb') as f:
         pickle.dump(caTrace, f)
+    print('Done (%.4f)' % (time.clock() - start))
 
-
-
+    start = time.clock()
+    print('Rendering video...')
     ca.renderCa2Video(caTrace, G, dt=dt, fps=fps, mode='mean', noisemax=20, noiserep=fps*60)
+    print('Done!!!! (%.2f)' % (time.clock() - start))

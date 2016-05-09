@@ -65,7 +65,7 @@ if __name__ == '__main__':
     for i in network.getNeuronIDs():
         simulator.getNetwork(id).getNeuronByID(i)['Istim'] = 0
 
-    simulator.simulate(100)
+    simulator.simulate(5000)
 
     # Analyse data and create trace
     rec = simulator.getRecorder(recID)
@@ -74,8 +74,8 @@ if __name__ == '__main__':
     caTrace = ca.spikeEventsToCa2Trace(spikeEvents,dt=dt, end=5100)
     caTrace = ca.addGaussNoise(caTrace)
 
-    with open('caTrace.dat', 'wb'):
-        pickle.dump(caTrace)
+    with open('caTrace.dat', 'wb') as f:
+        pickle.dump(caTrace, f)
 
 
 

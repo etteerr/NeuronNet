@@ -442,6 +442,7 @@ class Recorder(object):
         self._variables = variables
         self._withTime = withTime
         self._networkStucture = None
+        self._toDisk = toDisk
 
         if toDisk:
             import Engine.DiskList as dl
@@ -559,7 +560,10 @@ class Recorder(object):
                 neurons = self._neuronIds
 
             for nId in neurons:
-                data = self[var][nId]
+                if self._toDisk:
+                    data = self[var][nId].toList()
+                else:
+                    data = self[var][nId]
                 rets.append((nId, p.apply_async(self._calculateSpikeEventtimes, (data, self['dt']))))
 
             data = {}
@@ -581,7 +585,10 @@ class Recorder(object):
 
             data = {}
             for nId in neurons:
-                data[nId] = self._calculateSpikeEventtimes(self[var][nId], self['dt'])
+                if self._toDisk:
+                    data[nId] = self._calculateSpikeEventtimes(self[var][nId].getList(), self['dt'])
+                else:
+                    data[nId] = self._calculateSpikeEventtimes(self[var][nId], self['dt'])
 
             if file is not None:
                 with open(file + '.txt', 'w') as f:

@@ -1,8 +1,8 @@
 import struct
 class DiskList:
-    def __init__(self, file, type=('f',4), buffersize=8, chunker=256):
-        #Buffer size in mb!
-        #chunker: Buffer size for operand operations
+    def __init__(self, file, type=('f',4), buffersize=128, chunker=131072):
+        #Buffer size in elements!
+        #chunker: Buffer size for operand operations in items (default 1mb where item size is 8)
         import io
         try:
             self._file = io.FileIO(file,'ab+')
@@ -36,6 +36,10 @@ class DiskList:
     def getsizebytes(self):
         return self._itemsize*self._items
 
+    def getList(self):
+        self._buffer.seek(0)
+        return list(struct.unpack(str(self._items) + self._type, self._buffer.read()))
+
 
 
     #Operands
@@ -47,11 +51,86 @@ class DiskList:
             it = 0
 
             for i in grouper(other,self._chunker):
+                #load data
                 self._buffer.seek(it * (self._chunker*self._itemsize))
                 data = list(struct.unpack(str(self._chunker)+self._type,  #size - type
                                      self._buffer.read(self._chunker*self._itemsize))) #byte data
+                # Operation
+                data += i
+                # Save data
                 self._buffer.seek(it * (self._chunker * self._itemsize))
-                data += i #Continue here
+                self._buffer.write(struct.pack(str(len(data))+self._type, *data))
+
+
+    def __sub__(self, other):
+        if isinstance(other, list):
+            if not len(list) == self._items:
+                raise ValueError('Sizes of both object must be equal')
+            it = 0
+
+            for i in grouper(other, self._chunker):
+                # load data
+                self._buffer.seek(it * (self._chunker * self._itemsize))
+                data = list(struct.unpack(str(self._chunker) + self._type,  # size - type
+                                          self._buffer.read(self._chunker * self._itemsize)))  # byte data
+                # Operation
+                data -= i
+                # Save data
+                self._buffer.seek(it * (self._chunker * self._itemsize))
+                self._buffer.write(struct.pack(str(len(data)) + self._type, *data))
+
+    def __mul__(self, other):
+        if isinstance(other, list):
+            if not len(list) == self._items:
+                raise ValueError('Sizes of both object must be equal')
+            it = 0
+
+            for i in grouper(other, self._chunker):
+                # load data
+                self._buffer.seek(it * (self._chunker * self._itemsize))
+                data = list(struct.unpack(str(self._chunker) + self._type,  # size - type
+                                          self._buffer.read(self._chunker * self._itemsize)))  # byte data
+                # Operation
+                data *= i
+                # Save data
+                self._buffer.seek(it * (self._chunker * self._itemsize))
+                self._buffer.write(struct.pack(str(len(data)) + self._type, *data))
+
+    def __div__(self, other):
+        if isinstance(other, list):
+            if not len(list) == self._items:
+                raise ValueError('Sizes of both object must be equal')
+            it = 0
+
+            for i in grouper(other, self._chunker):
+                # load data
+                self._buffer.seek(it * (self._chunker * self._itemsize))
+                data = list(struct.unpack(str(self._chunker) + self._type,  # size - type
+                                          self._buffer.read(self._chunker * self._itemsize)))  # byte data
+                # Operation
+                data /= i
+                # Save data
+                self._buffer.seek(it * (self._chunker * self._itemsize))
+                self._buffer.write(struct.pack(str(len(data)) + self._type, *data))
+
+    def __eq__(self, other):
+        if isinstance(other, list):
+            if not len(list) == self._items:
+                raise ValueError('Sizes of both object must be equal')
+            it = 0
+
+            for i in grouper(other, self._chunker):
+                # load data
+                self._buffer.seek(it * (self._chunker * self._itemsize))
+                data = list(struct.unpack(str(self._chunker) + self._type,  # size - type
+                                          self._buffer.read(self._chunker * self._itemsize)))  # byte data
+                # Operation
+                if not data == i:
+                    return False
+                # Save data
+                self._buffer.seek(it * (self._chunker * self._itemsize))
+                self._buffer.write(struct.pack(str(len(data)) + self._type, *data))
+        return True
 
 
 # Help functions

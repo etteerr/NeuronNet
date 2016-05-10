@@ -1,15 +1,23 @@
 import struct
 class DiskList:
-    def __init__(self, file, type=('f',4), buffersize=128, chunker=131072):
+    def __init__(self, file, type=('f',4), buffersize=128, chunker=131072, readonly=False, overwrite=False):
         #Buffer size in elements!
         #chunker: Buffer size for operand operations in items (default 1mb where item size is 8)
         import io
+        import os
         try:
-            self._file = io.FileIO(file,'ab+')
-            self._buffer = io.BufferedRandom(self._file, buffersize*type[1])
+            if readonly:
+                self._file = io.FileIO(file, 'rb')
+                self._buffer = io.BufferedReader(self._file, buffersize * type[1])
+            elif overwrite:
+                self._file = io.FileIO(file, 'wb+')
+                self._buffer = io.BufferedRandom(self._file, buffersize * type[1])
+            else:
+                self._file = io.FileIO(file, 'ab+')
+                self._buffer = io.BufferedRandom(self._file, buffersize*type[1])
             self._itemsize = type[1]
             self._type = type[0]
-            self._items = 0
+            self._items = os.path.getsize(file)/type[1]
             self._chunker = chunker
         except:
             print('Error while opening file: %s' % file)
@@ -138,7 +146,7 @@ def grouper(iterable, n):
     offset = 0
     while True:
         if offset + n < len(iterable):
-            yield iterable[offset:n]
+            yield iterable[offset:offset+n]
             offset += n
         else:
             yield iterable[offset:len(iterable)]

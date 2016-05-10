@@ -106,7 +106,7 @@ def spikeEventsToCa2Trace(spikeEventsData, start=0, end=None, dt=0.01, spikeForm
     return res
 
 
-def addGaussNoise(data, sd=0.4):
+def addGaussNoise(data, sd=0.4, chunksize=1000):
     """
     Add gaussian noise to the given data (simple np.random.normal wrapper)
     Recursivly goes through dictionaries or list to find lists containing non list/dict things (numbers!)
@@ -116,21 +116,25 @@ def addGaussNoise(data, sd=0.4):
     :param sd: Standart Deviation
     :return: data with noise
     """
-    if isinstance(data, dict):
+    if isinstance(data, dict): # If dict, recurse every entry
         for (i, value) in data.items():
-            if not isinstance(data[i], list) and isinstance(data[i][0], (list, dict, np.matrix, np.ndarray)):
-                data[i] = addGaussNoise(data[i], sd) #Recursion
-            else:
-                data[i] = list(data[i] + np.random.normal(0, sd, len(data[i])))
-    elif isinstance(data, (list, np.ndarray)):
-        if isinstance(data[0], (list, dict, np.matrix, np.ndarray)):
-            for (i, v) in enumerate(data):
-                if isinstance(data[i], (list, dict, np.matrix, np.ndarray)):
-                    data[i] = addGaussNoise(data[1], sd)
-                else:
-                    data[i] = list(data[i] + np.random.normal(0, sd, len(data[i])))
+                data[i] = addGaussNoise(data[i], sd, chunksize) #Recursion
+    elif isinstance(data, (list, np.ndarray)): #If its a list or array
+        if isinstance(data[0], (list, dict, np.matrix, np.ndarray)): #And contains lists or arrays
+            for (i, v) in enumerate(data): # For every entry
+                if isinstance(data[i], (list, dict, np.matrix, np.ndarray)): # If its a list, array or dict
+                    data[i] = addGaussNoise(data[1], sd, chunksize)  # Recurse
+                else:                                           #Else
+                    data[i] = data[i] + np.random.normal(0, sd) # its a number, add sd
         else:
-            data = list(data + np.random.normal(0, sd, len(data)))
+            offset = 0
+            while True:
+                if offset + chunksize < len(data):
+                    data[offset:offset+chunksize] += np.random.normal(0,sd,chunksize)
+                    offset += chunksize
+                else:
+                    data[offset:len(data)] += np.random.normal(0,sd,len(data)-offset)
+                    break
     elif isinstance(data, np.matrix):
         data += np.random.normal(0, sd, data.shape)
     else:

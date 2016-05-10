@@ -435,24 +435,32 @@ class Network:
 
 
 class Recorder(object):
-    def __init__(self, networkId, neuronIds, variables=['Vm'], withTime=False, toDisk=False, toDiskDir='defaultDir', buffersize=128):  # TODO: WithTime
+    def __init__(self, networkId, neuronIds, variables=['Vm'], withTime=False, diskMode=False, toDiskDir='defaultDir', buffersize=128, readonly=False, overwrite=False, dt=None):  # TODO: WithTime
         # Buffer size in items
         self._networkId = networkId
         self._neuronIds = neuronIds
         self._variables = variables
         self._withTime = withTime
         self._networkStucture = None
-        self._toDisk = toDisk
+        self._toDisk = diskMode
+        if dt is not None:
+            self['dt'] = dt
 
-        if toDisk:
+        if diskMode:
             import Engine.DiskList as dl
             import os
-            os.mkdir(toDiskDir)
-            self.timeline = dl.DiskList(os.path.join(toDiskDir, 'timeline'))
+            if not os.path.isdir(toDiskDir) and not readonly:
+                os.mkdir(toDiskDir)
+            elif not os.path.isdir(toDiskDir) and readonly:
+                raise IOError('No such directory: %s' % toDiskDir)
+            elif os.path.isdir(toDiskDir) and not readonly and not overwrite:
+                print('%s opened in append mode!' % toDiskDir)
+
+            self.timeline = dl.DiskList(os.path.join(toDiskDir, 'timeline'), readonly=readonly, overwrite=overwrite)
             for var in variables:
                 self[var] = {}
                 for i in neuronIds:
-                    self[var][i] = dl.DiskList(os.path.join(toDiskDir, 'var_%s_neuron_%s' % (var, i)))
+                    self[var][i] = dl.DiskList(os.path.join(toDiskDir, 'var_%s_neuron_%s' % (var, i)), readonly=readonly, overwrite=overwrite)
         else:
             self.timeline = []
             for var in variables:
@@ -467,6 +475,8 @@ class Recorder(object):
         setattr(self, key, value)
 
     def save(self, file):
+        if self._toDisk:
+            raise RuntimeError('Function not available in disk mode')
         try:
             with open(file + ".pRek", 'wb') as fHandle:
                 p = pickle.Pickler(fHandle)
@@ -482,6 +492,8 @@ class Recorder(object):
             p.dump(self._networkStucture)
 
     def saveToXML(self, file):
+        if self._toDisk:
+            raise RuntimeError('Function not available in disk mode')
         '''
         Saves the recorder to a txt file as backup to a pickle. This is not ment to be opened in excel
         :param file:
@@ -494,35 +506,15 @@ class Recorder(object):
                 for (key, value) in self[var].items():
                     writer.writerow([key]+value)
 
-    '''@staticmethod
-    def loadTextformat(file):
-        import csv
-        var = None
-        rec = Recorder(0, [], [], False)
-        with open(file + ".txt", 'r') as f:
-            r = csv.reader(f)
-            for row in r:
-                if len(row) == 1:
-                    var = row[0]
-                    rec[var] = {}
-                else:
-                    if row[0] == 'neuronId':
-                        id = row[1]
-                        rec[var][id] = row[2:len(row)]
-                    elif row[0] == 'TImeline':
-                        rec.timeline = row[1:len(row)]
-                        rec._withTime = True
-'''
-
-
-
     def setNetworkStructure(self, network, synapseWeightVar='w'):
         """
         Takes a Network class object (from ENNet) and converts it to
-        an networkx file. This is needed to render the network results.
+        an networkx file. This maybe needed to render the network results.
         :param network:
         :return: Nothing
         """
+        if self._toDisk:
+            print('Usage warning: Manual save of network structure is still required in disk mode!')
         import networkx as nx
         G = nx.DiGraph()
 
@@ -544,7 +536,7 @@ class Recorder(object):
             return pickle.load(fHandle)
 
 
-    def getSpikeEventtimes(self, var='Vm', async=True, neurons=None, file=None):
+    def getSpikeEventtimes(self, var='Vm', async=False, neurons=None, file=None):
         """
         Calculates the spike events and returns an array containing the timestamps of the spikes.
         This is calculated over var for each neuron in neurons. If neurons is None, all neurons are used.

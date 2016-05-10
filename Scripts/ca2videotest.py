@@ -54,7 +54,7 @@ if __name__ == '__main__':
     id = simulator.addNetwork(network)
 
     # Add recorder
-    rec = enn.Recorder(id, network.getNeuronIDs(), withTime=True, toDisk=True, toDiskDir='TestDir')
+    rec = enn.Recorder(id, network.getNeuronIDs(), withTime=True, diskMode=True, toDiskDir='TestDir')
 
     recID = simulator.addRecorder(rec)
 

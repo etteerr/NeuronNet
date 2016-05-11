@@ -90,6 +90,17 @@ default_Hodgkin_Huxley_neuron_dict = {
     'Istim' : 0     # Artificial input current (set between simulations?)
 }
 ################ Neuron ################
+# Outside definition seems to be faster than nested functions
+def alpha_n(Vm, Eq): return (0.01*(-(Vm+Eq)+10))/(exp((-(Vm+Eq)+10)/10)-1)
+def alpha_m(Vm, Eq): return (0.1*(-(Vm+Eq)+25))/(exp((-(Vm+Eq)+25)/10)-1)
+def alpha_h(Vm, Eq): return 0.07  * exp(-(Vm+Eq)/20)
+def beta_n(Vm, Eq) : return 0.125 * exp(-(Vm+Eq)/80)
+def beta_m(Vm, Eq) : return 4     * exp(-(Vm+Eq)/18)
+def beta_h(Vm, Eq) : return 1/( exp((-(Vm+Eq)+30)/10)+1)
+#delta values for n, m and h
+def delta_n(Vm, n, Eq): return alpha_n(Vm, Eq) * (1 - n) - beta_n(Vm, Eq) * n
+def delta_m(Vm, m, Eq): return alpha_m(Vm, Eq) * (1 - m) - beta_m(Vm, Eq) * m
+def delta_h(Vm, h, Eq): return alpha_h(Vm, Eq) * (1 - h) - beta_h(Vm, Eq) * h
 def HodgkinAndHuxleyNeuron(neuronDict):
     """
     This function will simulate a neuron with the hogdkin & huxley formula.
@@ -100,16 +111,7 @@ def HodgkinAndHuxleyNeuron(neuronDict):
     """
     Eq = -neuronDict['Eq'] #Setting the inverted Eq as resting potential of membrane
     #Functions
-    def alpha_n(Vm): return (0.01*(-(Vm+Eq)+10))/(exp((-(Vm+Eq)+10)/10)-1)
-    def alpha_m(Vm): return (0.1*(-(Vm+Eq)+25))/(exp((-(Vm+Eq)+25)/10)-1)
-    def alpha_h(Vm): return 0.07  * exp(-(Vm+Eq)/20)
-    def beta_n(Vm) : return 0.125 * exp(-(Vm+Eq)/80)
-    def beta_m(Vm) : return 4     * exp(-(Vm+Eq)/18)
-    def beta_h(Vm) : return 1/( exp((-(Vm+Eq)+30)/10)+1)
-    #delta values for n, m and h
-    def delta_n(Vm, n): return alpha_n(Vm) * (1 - n) - beta_n(Vm) * n
-    def delta_m(Vm, m): return alpha_m(Vm) * (1 - m) - beta_m(Vm) * m
-    def delta_h(Vm, h): return alpha_h(Vm) * (1 - h) - beta_h(Vm) * h
+        #Now found outside
 
     #Lets go!
     d = neuronDict
@@ -126,9 +128,9 @@ def HodgkinAndHuxleyNeuron(neuronDict):
     d['Vm'] += d['dt'] * (1/d['Cm']) * ( (d['I'] + d['Istim']) - d['IK'] - d['INa'] - d['Il'] )
 
     # Calculate reaction of le ion channels
-    d['m'] += d['dt'] *  delta_m(d['Vm'],d['m'])
-    d['n'] += d['dt'] *  delta_n(d['Vm'],d['n'])
-    d['h'] += d['dt'] *  delta_h(d['Vm'],d['h'])
+    d['m'] += d['dt'] *  delta_m(d['Vm'],d['m'], Eq)
+    d['n'] += d['dt'] *  delta_n(d['Vm'],d['n'], Eq)
+    d['h'] += d['dt'] *  delta_h(d['Vm'],d['h'], Eq)
     #We processed the input, rest it
     d['I'] = 0
     #Return the d!
@@ -137,7 +139,6 @@ def HodgkinAndHuxleyNeuron(neuronDict):
 
 ################ Synapse ###############
 def HodgkinAndHuxleyAxonSynapse(synapseDict, source, dest):
-    #TODO: Writo This functo
     pass
 
 def erwinHandHsynapse(synapseDict, source, dest):

@@ -1,9 +1,9 @@
 #!/usr/bin/python
 import sys
-if not len(sys.argv) == 1:
+if not len(sys.argv) == 2:
     print('Please give the path containing Engine as argument: python Scrips/linux_run.py pwd')
     exit()
-sys.path.append(sys.argv[0])
+sys.path.append(sys.argv[1])
 
 import networkx as nx
 import Engine.ENNet as enn

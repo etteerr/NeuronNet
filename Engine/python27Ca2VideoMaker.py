@@ -219,9 +219,9 @@ def renderCa2Video(data, netpos, output='video.avi', fps=120.0, size=(800,600), 
         modefun = np.max
 
     # Pre calculate noise
-    nnframes = np.int32(fps)
+    nnframes = int(noiserep)
     noiseframes = []
-    for i in range(0,nnframes):
+    for i in range(0, nnframes):
         uninoise = np.uint8(np.random.random_integers(0, noisemax, (size[1], size[0])))
         nframe = np.zeros((size[1], size[0], 3), np.uint8)
         nframe[:, :, 0] += uninoise

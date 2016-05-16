@@ -137,10 +137,90 @@ def HodgkinAndHuxleyNeuron(neuronDict):
     return d
 
 
-################ Synapse ###############
-def HodgkinAndHuxleyAxonSynapse(synapseDict, source, dest):
-    pass
+################ Synapses ###############
 
+############### Hodgkin huxley type synapse simple ###################
+# This is a H&H approximation using 3 simple channels,               #
+# a leakage, IPSP and EPSP channel.                                  #
+######################################################################
+default_HodgkinAndHuxleyAxonSynapseSimple_dict = {
+    'w': 1,
+    'gl': 1, # leakage conductance
+    'El': -70, # Leakge resting potential
+    'ge': 0, # excitatory conductance
+    'Ee': -60, # excitatory resting potential
+
+}
+def transferFunction(x, turnpoint=0, max=1, steepness=10):
+    '''
+    logistic function for HodgkinAndHuxleyAxonSynapseSimple
+    Returns a value between 0 and max based on x
+    :param x: input value
+    :param turnpoint: Where it returns 0.5
+    :param steepness: The slope of the curve
+    :return: value between 0 and max
+    note: over/underflow values are +- 710 and -710 respectively
+    '''
+    try:
+        return max/(1 + exp(-steepness * (x - turnpoint)))
+    except Exception:
+        if (-steepness * (x - turnpoint)) >= 708:
+            return numpy.float64(0)
+        elif (-steepness * (x - turnpoint)) <= -708:
+            return numpy.float64(max)
+
+
+def HodgkinAndHuxleyAxonSynapseSimple_Dictwrapper(
+        wi=0, we=0, gl=1, El=-70, Ee=-60, Ei=-75,
+        VmTurn = 20, steepness = 10, sd=0.1
+):
+    '''
+    See HodgkinAndHuxleyAxonSynapseSimple
+    '''
+    return {
+        'wi':wi,
+        'we':we,
+        'gl':gl,
+        'El':El,
+        'Ee':Ee,
+        'Ei':Ei,
+        'VmTurn':VmTurn,
+        'steepness':steepness,
+        'sd':sd
+    }
+
+def HodgkinAndHuxleyAxonSynapseSimple(synapseDict, source, dest):
+    '''
+
+    :param synapseDict:
+        wi: weight of the conduction of the inhibitory ion stream
+        we: weight of the conduction of the excitatory ion stream
+        Set one of the weights to 0 to disable it
+
+        gl: Conduction of leakage
+        El: Reverse potential of the leakage
+        Ee: Reverse potential of the excitatory ion stream
+        Ei: Reverse potential of the inhibitory ion stream
+
+        VmTurn: Turnpoint of the gate value (default: 20)
+                The point of the transfer function (in Vm) where it returns 0.5 * max
+
+        steepness: Response curve of the excitory and inhibitory conductivity (default: 10)
+
+        sd: Standard deviation of the gate values, Applied before weight: (gate_value + sd) * weight
+    :param source:
+    :param dest:
+    :return:
+    '''
+    V = source['Vm']
+    gate_value = transferFunction(V, synapseDict['VmTurn'], max=1, steepness=synapseDict['steepness'])
+    gi = (gate_value + numpy.abs(numpy.random.normal(0,synapseDict['sd']))) * synapseDict['wi']
+    ge = (gate_value + numpy.abs(numpy.random.normal(0,synapseDict['sd']))) * synapseDict['we']
+    dest['I'] += source['dt'] * (synapseDict['gl'] * (V-synapseDict['El']) + gi * (V-synapseDict['Ei']) + ge * (V-synapseDict['Ee']))
+    return [synapseDict, source, dest]
+
+
+###############
 def erwinHandHsynapse(synapseDict, source, dest):
     #I,i,w,source,dest = Synapse
     dest['I'] += synapseDict['I'][synapseDict['i']] ## Add it!!, dont overwrite other synapses!

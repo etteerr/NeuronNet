@@ -24,48 +24,49 @@ G = {1:[0,0],
 '''
 if __name__ == '__main__':
     dt = 0.05
-    N = 10
-    fps = 120.0
-    G = nx.fast_gnp_random_graph(N, p=0.3)
+    N = 2
+    fps = 2000.0
+    G = nx.fast_gnp_random_graph(N, p=1)
 
-    synapseDict = {
+    '''synapseDict = {
         'I': ([0] * int(5 / dt)),
         'i': 0,  # iterator
         'i2': 0,  # iterator recovery
         'rp': 1 / dt,  # refractive period in dt
         'threshold': 10,
         'w': 1  # Mathematisch gewicht (v*w) Zie synapse (induces a 10mV * 0.01ms * 1000weight current = 100 )
-    }
+    }'''
 
+    synapseDict = models.HodgkinAndHuxleyAxonSynapseSimple_Dictwrapper(we=0.5)
 
     simulator = enn.Simulator()
 
     network = enn.Network(models.HodgkinAndHuxleyNeuron,
                           models.default_Hodgkin_Huxley_neuron_dict,
-                          models.erwinHandHsynapse,
+                          models.HodgkinAndHuxleyAxonSynapseSimple,
                           synapseDict,
                           dt,
                           G,
                           True)
 
-    for i in network.getNeuronIDs():
-        network.getNeuronByID(i)['Istim'] = 10
+
+    network.getNeuronByID(0)['Istim'] = 0
 
     id = simulator.addNetwork(network)
 
     # Add recorder
-    rec = enn.Recorder(id, network.getNeuronIDs(), withTime=True, diskMode=True, toDiskDir='TestDir')
+    rec = enn.Recorder(id, network.getNeuronIDs(),variables=['Vm', 'I'], withTime=True, diskMode=True, toDiskDir='TestDir', overwrite=True)
 
     recID = simulator.addRecorder(rec)
 
     #sim
 
-    simulator.simulate(100)
+    simulator.simulate(500)
 
-    for i in network.getNeuronIDs():
-        simulator.getNetwork(id).getNeuronByID(i)['Istim'] = 0
 
-    simulator.simulate(5000)
+    simulator.getNetwork(id).getNeuronByID(0)['Istim'] = 10
+
+    simulator.simulate(500)
 
     # Analyse data and create trace
     import time
@@ -108,5 +109,5 @@ if __name__ == '__main__':
 
     start = time.clock()
     print('Rendering video...')
-    ca.renderCa2Video(caTrace, G, dt=dt, fps=fps, mode='mean', noisemax=20, noiserep=fps*60)
+    ca.renderCa2Video(caTrace, G, dt=dt, fps=fps, mode='mean', noisemax=20, noiserep=120)
     print('Done!!!! (%.2f)' % (time.clock() - start))

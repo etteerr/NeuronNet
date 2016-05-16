@@ -9,7 +9,7 @@ N = 500
 fps = 120.0
 G = nx.fast_gnp_random_graph(N, p=0.3)
 
-rec = enn.Recorder(0, range(0,500), readonly=True, dt=0.05, diskMode=True, toDiskDir='Neuralnetwork1')
+rec = enn.Recorder(0, range(0,N), readonly=True, dt=0.05, diskMode=True, toDiskDir='Neuralnetwork1')
 a = rec.getSpikeEventtimes(var='Vm')
 trace = ca.spikeEventsToCa2Trace(a, dt=0.05, end=5100)
 caTrace = ca.addGaussNoise(trace)
@@ -33,5 +33,5 @@ print('Done (%.4f)' % (time.clock() - start))
 
 start = time.clock()
 print('Rendering video...')
-ca.renderCa2Video(caTrace, G, dt=dt, fps=fps, mode='mean', noisemax=20, noiserep=fps*60)
+ca.renderCa2Video(caTrace, G, dt=dt, fps=fps, mode='mean', noisemax=20, noiserep=256)
 print('Done!!!! (%.2f)' % (time.clock() - start))

@@ -22,7 +22,10 @@ e.j.diepgrond@gmail.com
 import copy
 import sys
 import numpy as np
-import peakutils as pu
+try:
+    import peakutils as pu
+except ImportError:
+    print('Warning: Peakutils not found. Recorder.getSpikeEventtimes not working!')
 
 from multiprocessing import Pool
 

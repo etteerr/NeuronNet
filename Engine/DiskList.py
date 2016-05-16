@@ -17,7 +17,7 @@ class DiskList:
                 self._buffer = io.BufferedRandom(self._file, buffersize*type[1])
             self._itemsize = type[1]
             self._type = type[0]
-            self._items = os.path.getsize(file)/type[1]
+            self._items = int(os.path.getsize(file)/type[1])
             self._chunker = chunker
         except:
             print('Error while opening file: %s' % file)

@@ -146,13 +146,14 @@ def addGaussNoise(data, sd=0.4, chunksize=1000):
 def extractPosDataFromNetworkx(G):
     pass
 
-def renderCa2Video(data, netpos, output='video.avi', fps=120.0, size=(800,600), radius=4, maxrgb=[255, 255, 255], dt=0.01, mode='mean', noisemax=10, noiserep=256):
+def renderCa2Video(data, netpos, output='video.avi', recfps=120.0, playfps=24.0, size=(800,600), radius=4, maxrgb=[255, 255, 255], dt=0.01, mode='mean', noisemax=10, noiserep=256):
     """
     Renders a video based on the data and the network structure
     :param data: A dictionary with the data. Keys must correspond to the keys of the networkx (networkStructure)
     :param netpos: The locations of every neurons: dict { neuronID: [x,y] } where x and y are doubles between -1 and 1
     :param output: Name of the output
-    :param fps: Frames per seconds. Please choose a value that results in a rounded answer for frametime/dt where frametime is 1/fps
+    :param recfps: Frames per seconds. Please choose a value that results in a rounded answer for frametime/dt where frametime is 1/fps
+    :param 24.0: The fps for playback.
     :param size: video size
     :param radius: size of the neurons in pixels
     :param maxrgb: maximum value of RGB representation of the data
@@ -171,7 +172,7 @@ def renderCa2Video(data, netpos, output='video.avi', fps=120.0, size=(800,600), 
     import cv2
     isColor = True
 
-    video = cv2.VideoWriter(output, cv2.VideoWriter_fourcc('M','J','P','G'), fps, size, isColor )
+    video = cv2.VideoWriter(output, cv2.VideoWriter_fourcc('M','J','P','G'), playfps, size, isColor )
     if not video.isOpened():
         print('Unable to open video file, are you missing "opencv_mmpeg.dll"?')
         return False
@@ -179,11 +180,13 @@ def renderCa2Video(data, netpos, output='video.avi', fps=120.0, size=(800,600), 
     # Reformat data and assign positions
     positions = []
     dataarray = []
+    maxarray = []
     length = len(data[data.keys()[0]])
     for key in data.keys():
         (x,y) = netpos[key]
         positions.append( (int(np.round(((np.double(x)+1.0)/2.0) * np.double(size[0]))), int(np.round(((np.double(y)+1.0)/2.0) * np.double(size[1])))) )
         dataarray.append(data[key])
+        maxarray.append(np.array(data[key]).max())
         if not length == len(data[key]):
             raise AssertionError('Not all data lengths are equal')
 
@@ -191,17 +194,18 @@ def renderCa2Video(data, netpos, output='video.avi', fps=120.0, size=(800,600), 
     frame = np.zeros((size[1], size[0], 3), np.uint8)
 
     # Find max value
-    maxy = np.array(dataarray).max()
+    maxy = np.array(maxarray).max()
 
     # Calculate frame bin size
     dt = dt / 1000
-    frametime = 1/fps
+    frametime = 1/recfps
     stepsPerFrame = int(np.ceil(frametime/dt))
     print('Advised FPS: %i' % (.10 / dt) )
-    print('Used FPS: %i' % (fps))
+    print('Used FPS: %i' % (recfps))
     print('Total samples: %i' % length)
     print('data per frame: %.2f\nRounded to: %i' % ((frametime/dt),int(np.ceil(frametime/dt))))
-    print('Total video time: %.2fs' % ((length/stepsPerFrame)/fps))
+    print('Total video time: %.2fs' % ((length/stepsPerFrame)/recfps))
+    print('Total playback time: %.2fs' % ((length/stepsPerFrame)/playfps))
 
     assert((frametime/dt) >= 1)
 

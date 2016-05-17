@@ -441,7 +441,7 @@ class Recorder(object):
     def __init__(self, networkId, neuronIds, variables=['Vm'], withTime=False, diskMode=False, toDiskDir='defaultDir', buffersize=128, readonly=False, overwrite=False, dt=None):  # TODO: WithTime
         # Buffer size in items
         self._networkId = networkId
-        self._neuronIds = neuronIds
+        self._neuronIds = list(neuronIds)
         self._variables = variables
         self._withTime = withTime
         self._networkStucture = None

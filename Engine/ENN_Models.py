@@ -69,11 +69,11 @@ def erwinSynapse(synapseDict, source, dest):
 #### Hodgkin & Huxley                 ####
 ##########################################
 default_Hodgkin_Huxley_neuron_dict = {
-    'Vm'   : -60,   # The membrane Voltage
+    'Vm'   : -65,   # The membrane Voltage
     'Eq'    : -65,# The resting voltage of the neuron
-    'INa'   : 0,    # The natrium current
-    'IK'    : 0,    # potassium current
-    'Il'    : 0,    # The leakage current
+    'INa'   : -1.22,    # The natrium current
+    'IK'    : 4.4,    # potassium current
+    'Il'    : -3.18,    # The leakage current
     'gNa'  : 120,  # conductance constant for Na (mS)
     'gK'   : 36,   # conductance constant for K  (mS)
     'gl'   : 0.3,  # conductance constant for leakage (mS)
@@ -81,9 +81,9 @@ default_Hodgkin_Huxley_neuron_dict = {
     'EK'    : -12,  # resting potential K
     'El'    : 10.6, # resting potential Leakage
     'Cm'    : 1,    # Membrane capacitance
-    'n'     : 0.3,  # n-value
-    'm'     : 0.5,  # m-value
-    'h'     : 0.5, # h-value
+    'n'     : 0.317,  # n-value
+    'm'     : 0.05,  # m-value
+    'h'     : 0.6, # h-value
     'dt'    : 0,    # Set by simulator
     'I'     : 0,    # Input current from synapse (set by synapse update: HodgkinAndHuxleyAxonSynapse() )
     'Imax'  : 200,   # max input current from synapse (overflow protection
@@ -165,7 +165,7 @@ def transferFunction(x, turnpoint=0, max=1, steepness=10):
 def HodgkinAndHuxleyAxonSynapseSimple_Dictwrapper(
         # Changed gl to 0, leakage results in overflow errors in the neurons! (they have leakage them selves!)
         wi=0, we=0, gl=0, El=-70, Ee=0, Ei=-75,
-        VmTurn = 25, steepness = 5, sd=0.1
+        VmTurn = 25, steepness = 5, sd=0.4
 ):
     '''
     See HodgkinAndHuxleyAxonSynapseSimple

@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c5468e22-4242-4315-9a9d-571600069c19" name="Default" comment="Changed Working of ENNet&#10;- Removed parallel processing within networks&#10;- Added parallel processing of networks&#10;- Removed usage of Procpar, Now using multiprocessing.Pool&#10;- Fixed all synapses connecting from source to source&#10;- Fixed various outdated interfaces to functions&#10;- Updated H&amp;HNeuronSimulatie.py for the new features &#10;- Renamed H&amp;HNeuronSimulatie.py to HnHNeuronSimulatie.py&#10;- Changed notifications to be uniform. Now  in the form of: (class) Message and (class %id) Message&#10;- Added various checks to prevent bugs with manual addition of synapses and neurons&#10;- Added support for multiple types of synapses and neurons within a network. (This support was dropped and added again)&#10;- Now Recorder option 'withTime' is no longer ignored.&#10;- Removed Procpar and afflicted code">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scripts/ca2videotest.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Engine/ENN_Models.py" afterPath="$PROJECT_DIR$/Engine/ENN_Models.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scripts/ManualRecorderManipulation.py" afterPath="$PROJECT_DIR$/Scripts/ManualRecorderManipulation.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scripts/MultipleNetworksTest.py" afterPath="$PROJECT_DIR$/Scripts/MultipleNetworksTest.py" />
     </list>
     <ignored path="NeuronNet.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,11 +25,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MultipleNetworksTest.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MultipleNetworksTest.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Scripts/MultipleNetworksTest.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
-              <caret line="51" column="35" selection-start-line="51" selection-start-column="35" selection-end-line="51" selection-end-column="35" />
+            <state relative-caret-position="346">
+              <caret line="42" column="13" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -38,22 +37,34 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Load&amp;generateVideoTest.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Scripts/Load&amp;generateVideoTest.py">
+      <file leaf-file-name="ENNet.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Engine/ENNet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="7" />
+            <state relative-caret-position="183">
+              <caret line="402" column="0" selection-start-line="402" selection-start-column="0" selection-end-line="402" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ManualRecorderManipulation.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Load&amp;generateVideoTest.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Scripts/Load&amp;generateVideoTest.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ManualRecorderManipulation.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Scripts/ManualRecorderManipulation.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="340">
-              <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-              <folding />
+              <caret line="20" column="30" selection-start-line="20" selection-start-column="30" selection-end-line="20" selection-end-column="30" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -61,8 +72,8 @@
       <file leaf-file-name="ENN_Models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Engine/ENN_Models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="707">
-              <caret line="212" column="38" selection-start-line="212" selection-start-column="38" selection-end-line="212" selection-end-column="38" />
+            <state relative-caret-position="146">
+              <caret line="74" column="21" selection-start-line="74" selection-start-column="21" selection-end-line="74" selection-end-column="21" />
               <folding>
                 <element signature="e#718#730#0" expanded="true" />
               </folding>
@@ -126,17 +137,17 @@
         <option value="$PROJECT_DIR$/Engine/DiskList.py" />
         <option value="$PROJECT_DIR$/Scripts/Load&amp;generateVideoTest.py" />
         <option value="$PROJECT_DIR$/Scripts/ca2videotest.py" />
+        <option value="$PROJECT_DIR$/Engine/ENN_Models.py" />
         <option value="$PROJECT_DIR$/Scripts/MultipleNetworksTest.py" />
         <option value="$PROJECT_DIR$/Scripts/ManualRecorderManipulation.py" />
-        <option value="$PROJECT_DIR$/Engine/ENN_Models.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
+    <option name="x" value="-1688" />
     <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1056" />
+    <option name="width" value="1696" />
+    <option name="height" value="1066" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -266,7 +277,7 @@
       <recent name="C:\Users\Erwin\Documents\GitHub\NeuronNet" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.ManualRecorderManipulation">
+  <component name="RunManager" selected="Python.MultipleNetworksTest">
     <configuration default="false" name="ca2videotest (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -495,8 +506,8 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.ManualRecorderManipulation" />
-        <item index="1" class="java.lang.String" itemvalue="Python.MultipleNetworksTest" />
+        <item index="0" class="java.lang.String" itemvalue="Python.MultipleNetworksTest" />
+        <item index="1" class="java.lang.String" itemvalue="Python.ManualRecorderManipulation" />
         <item index="2" class="java.lang.String" itemvalue="Python.ca2videotest (1)" />
         <item index="3" class="java.lang.String" itemvalue="Python.Load&amp;generateVideoTest" />
         <item index="4" class="java.lang.String" itemvalue="Python.OverUnderFlowTest" />
@@ -535,16 +546,16 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
-    <editor active="false" />
+    <frame x="-1688" y="-8" width="1696" height="1066" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.08422175" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13325183" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30627707" sideWeight="0.5101279" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30810812" sideWeight="0.48987207" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30481285" sideWeight="0.48987207" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32683983" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26054054" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25989306" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40111113" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32864866" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
@@ -582,9 +593,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="python-line">
-          <url>file://C:/Anaconda3/Lib/multiprocessing/reduction.py</url>
-          <line>49</line>
-          <option name="timeStamp" value="98" />
+          <url>file://$PROJECT_DIR$/Engine/ENNet.py</url>
+          <line>426</line>
+          <option name="timeStamp" value="99" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -597,7 +608,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="99" />
+      <option name="time" value="100" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -911,24 +922,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/Anaconda3/Lib/multiprocessing/reduction.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding>
-            <element signature="e#173#187#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Engine/ENNet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="444" column="35" selection-start-line="444" selection-start-column="35" selection-end-line="444" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Engine/DiskList.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
@@ -937,26 +930,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Scripts/ManualRecorderManipulation.py">
+    <entry file="file://C:/Anaconda3/Lib/multiprocessing/reduction.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+        <state relative-caret-position="183">
+          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Engine/ENNet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="402" column="0" selection-start-line="402" selection-start-column="0" selection-end-line="402" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Scripts/Load&amp;generateVideoTest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="7" />
+        <state relative-caret-position="289">
+          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Engine/ENN_Models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="707">
-          <caret line="212" column="38" selection-start-line="212" selection-start-column="38" selection-end-line="212" selection-end-column="38" />
+        <state relative-caret-position="146">
+          <caret line="74" column="21" selection-start-line="74" selection-start-column="21" selection-end-line="74" selection-end-column="21" />
           <folding>
             <element signature="e#718#730#0" expanded="true" />
           </folding>
@@ -965,8 +966,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Scripts/MultipleNetworksTest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="51" column="35" selection-start-line="51" selection-start-column="35" selection-end-line="51" selection-end-column="35" />
+        <state relative-caret-position="346">
+          <caret line="42" column="13" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Scripts/ManualRecorderManipulation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="30" selection-start-line="20" selection-start-column="30" selection-end-line="20" selection-end-column="30" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>

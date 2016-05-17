@@ -1,10 +1,30 @@
 import struct
+
 class DiskList:
+    #Picklers
+    def __getinitargs__(self):
+        return self._args
+
+    def __getstate__(self):
+        return self._args
+
+    def __setstate__(self,state):
+        self.__init__(*state)
+
     def __init__(self, file, type=('f',4), buffersize=128, chunker=131072, readonly=False, overwrite=False):
         #Buffer size in elements!
         #chunker: Buffer size for operand operations in items (default 1mb where item size is 8)
         import io
         import os
+        self._args = (file, type, buffersize, chunker, readonly, False)
+        self._dict = {
+            'file': file,
+            'type': type,
+            'buffersize': buffersize,
+            'chunker': chunker,
+            'readonly': readonly,
+            'overwrite': False
+        }
         try:
             if readonly:
                 self._file = io.FileIO(file, 'rb')

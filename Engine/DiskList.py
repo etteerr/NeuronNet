@@ -39,9 +39,11 @@ class DiskList:
             self._type = type[0]
             self._items = int(os.path.getsize(file)/type[1])
             self._chunker = chunker
-        except:
+        except Exception:
+            import traceback
+            traceback.print_exc()
             print('Error while opening file: %s' % file)
-            raise
+            raise Exception('Error...')
 
     def append(self, data):
         self._buffer.seek(0,2)

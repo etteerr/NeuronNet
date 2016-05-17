@@ -200,15 +200,15 @@ def HodgkinAndHuxleyAxonSynapseSimple(synapseDict, source, dest):
 
         steepness: Response curve of the excitory and inhibitory conductivity (default: 10)
 
-        sd: Standard deviation of the gate values, Applied before weight: (gate_value + sd) * weight
+        sd: Standard deviation applied after weight
     :param source:
     :param dest:
     :return:
     '''
     V = dest['Vm']
     gate_value = transferFunction(source['Vm'], synapseDict['VmTurn'], max=1, steepness=synapseDict['steepness'])
-    gi = (gate_value + numpy.abs(numpy.random.normal(0,synapseDict['sd']))) * synapseDict['wi']
-    ge = (gate_value + numpy.abs(numpy.random.normal(0,synapseDict['sd']))) * synapseDict['we']
+    gi = gate_value * synapseDict['wi'] + numpy.abs(numpy.random.normal(0,synapseDict['sd']))
+    ge = gate_value * synapseDict['we'] + numpy.abs(numpy.random.normal(0,synapseDict['sd']))
     dest['I'] -= source['dt'] * (synapseDict['gl'] * (V-synapseDict['El']) + gi * (V-synapseDict['Ei']) + ge * (V-synapseDict['Ee']))
     return [synapseDict, source, dest]
 

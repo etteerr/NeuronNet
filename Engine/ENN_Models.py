@@ -69,7 +69,7 @@ def erwinSynapse(synapseDict, source, dest):
 #### Hodgkin & Huxley                 ####
 ##########################################
 default_Hodgkin_Huxley_neuron_dict = {
-    'Vm'   : -65,   # The membrane Voltage
+    'Vm'   : -60,   # The membrane Voltage
     'Eq'    : -65,# The resting voltage of the neuron
     'INa'   : 0,    # The natrium current
     'IK'    : 0,    # potassium current
@@ -115,7 +115,7 @@ def HodgkinAndHuxleyNeuron(neuronDict):
 
     #Lets go!
     d = neuronDict
-    if d['I'] > 10: d['I'] = d['Imax']
+    if d['I'] > d['Imax']: d['I'] = d['Imax']
     # Calculating currents
     #IK = gK n^4 (Vm - EK)
     d['IK'] =  d['gK']  * (d['n']**4) * ((d['Vm']+Eq) - d['EK'])
@@ -143,14 +143,6 @@ def HodgkinAndHuxleyNeuron(neuronDict):
 # This is a H&H approximation using 3 simple channels,               #
 # a leakage, IPSP and EPSP channel.                                  #
 ######################################################################
-default_HodgkinAndHuxleyAxonSynapseSimple_dict = {
-    'w': 1,
-    'gl': 1, # leakage conductance
-    'El': -70, # Leakge resting potential
-    'ge': 0, # excitatory conductance
-    'Ee': -60, # excitatory resting potential
-
-}
 def transferFunction(x, turnpoint=0, max=1, steepness=10):
     '''
     logistic function for HodgkinAndHuxleyAxonSynapseSimple
@@ -171,8 +163,9 @@ def transferFunction(x, turnpoint=0, max=1, steepness=10):
 
 
 def HodgkinAndHuxleyAxonSynapseSimple_Dictwrapper(
-        wi=0, we=0, gl=1, El=-70, Ee=-60, Ei=-75,
-        VmTurn = 20, steepness = 10, sd=0.1
+        # Changed gl to 0, leakage results in overflow errors in the neurons! (they have leakage them selves!)
+        wi=0, we=0, gl=0, El=-70, Ee=-30, Ei=-75,
+        VmTurn = 25, steepness = 5, sd=0.1
 ):
     '''
     See HodgkinAndHuxleyAxonSynapseSimple
@@ -212,11 +205,11 @@ def HodgkinAndHuxleyAxonSynapseSimple(synapseDict, source, dest):
     :param dest:
     :return:
     '''
-    V = source['Vm']
-    gate_value = transferFunction(V, synapseDict['VmTurn'], max=1, steepness=synapseDict['steepness'])
+    V = dest['Vm']
+    gate_value = transferFunction(source['Vm'], synapseDict['VmTurn'], max=1, steepness=synapseDict['steepness'])
     gi = (gate_value + numpy.abs(numpy.random.normal(0,synapseDict['sd']))) * synapseDict['wi']
     ge = (gate_value + numpy.abs(numpy.random.normal(0,synapseDict['sd']))) * synapseDict['we']
-    dest['I'] += source['dt'] * (synapseDict['gl'] * (V-synapseDict['El']) + gi * (V-synapseDict['Ei']) + ge * (V-synapseDict['Ee']))
+    dest['I'] -= source['dt'] * (synapseDict['gl'] * (V-synapseDict['El']) + gi * (V-synapseDict['Ei']) + ge * (V-synapseDict['Ee']))
     return [synapseDict, source, dest]
 
 

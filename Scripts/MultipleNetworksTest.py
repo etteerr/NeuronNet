@@ -25,8 +25,7 @@ G = {1:[0,0],
 if __name__ == '__main__':
     dt = 0.05
     N = 50
-    fps = 2000.0
-    G = nx.fast_gnp_random_graph(N, p=1)
+    G = nx.fast_gnp_random_graph(N, p=0.3)
 
     '''synapseDict = {
         'I': ([0] * int(5 / dt)),
@@ -42,7 +41,7 @@ if __name__ == '__main__':
     simulator = enn.Simulator()
 
     nets = []
-    for we in np.linspace(0.5,4,8):
+    for we in np.linspace(1,8,8):
         synapseDict = models.HodgkinAndHuxleyAxonSynapseSimple_Dictwrapper(we=we)
         network = enn.Network(models.HodgkinAndHuxleyNeuron,
                               models.default_Hodgkin_Huxley_neuron_dict,
@@ -54,7 +53,7 @@ if __name__ == '__main__':
 
         id = simulator.addNetwork(network)
         rec = enn.Recorder(id, network.getNeuronIDs(), variables=['Vm', 'I'], withTime=True, diskMode=True,
-                           toDiskDir='TestDir_%i' % id, overwrite=True)
+                           toDiskDir='Network_Weight_%.2f' % we, overwrite=True)
         recID = simulator.addRecorder(rec)
         network.getNeuronByID(0)['Istim'] = 10
         nets.append(id)
@@ -63,9 +62,9 @@ if __name__ == '__main__':
 
     #sim
 
-    simulator.simulate(250, poolSize=4)
+    simulator.simulate(100, poolSize=4)
 
     for id in nets:
         simulator.getNetwork(id).getNeuronByID(0)['Istim'] = 0
 
-    simulator.simulate(500, poolSize=4)
+    simulator.simulate(100, poolSize=4)

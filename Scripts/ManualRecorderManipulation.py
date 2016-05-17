@@ -7,9 +7,9 @@ import pickle
 import pylab as pl
 
 dt = 0.05
-N = 2
+N = 50
 fps = 2000.0
-G = nx.fast_gnp_random_graph(N, p=1)
+#G = nx.fast_gnp_random_graph(N, p=1)
 
 
 rec = enn.Recorder(0, range(0,N), variables=['Vm', 'I'], readonly=True, dt=0.05, diskMode=True, toDiskDir='TestDir')
@@ -17,24 +17,20 @@ rec = enn.Recorder(0, range(0,N), variables=['Vm', 'I'], readonly=True, dt=0.05,
 
 pl.figure()
 
-ax = pl.subplot(211)
-pl.title('2 neurons: (0) -- 0.5 --> (1)    Neuron 0')
-v = rec['Vm'][0].getList()
-i = rec['I'][0].getList()
-t = rec.timeline.getList()
 
-pl.plot(t,v)
-pl.plot(t,i)
+ax = pl.subplot(211)
+for j in range(0,N):
+    pl.plot(rec['Vm'][j].getList())
+    pl.hold('on')
+
 pl.ylabel('Membrane Voltage (mv)')
 
 pl.subplot(212, sharex=ax, sharey=ax)
-pl.title('2 neurons: (0) -- 0.5 --> (1)    Neuron 1')
-v = rec['Vm'][1].getList()
-i = rec['I'][1].getList()
-pl.plot(t,v)
-pl.plot(t,i)
+for j in range(0,N):
+    pl.plot(rec['I'][j].getList())
+    pl.hold('on')
 
-pl.ylabel('Membrane Voltage (mv) and input current (pA)')
+pl.ylabel('input current (pA)')
 pl.xlabel('Time (ms)')
 
 pl.show()

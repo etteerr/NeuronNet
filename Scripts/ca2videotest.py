@@ -24,7 +24,7 @@ G = {1:[0,0],
 '''
 if __name__ == '__main__':
     dt = 0.05
-    N = 2
+    N = 50
     fps = 2000.0
     G = nx.fast_gnp_random_graph(N, p=1)
 
@@ -37,77 +37,35 @@ if __name__ == '__main__':
         'w': 1  # Mathematisch gewicht (v*w) Zie synapse (induces a 10mV * 0.01ms * 1000weight current = 100 )
     }'''
 
-    synapseDict = models.HodgkinAndHuxleyAxonSynapseSimple_Dictwrapper(we=0.5)
+
 
     simulator = enn.Simulator()
 
-    network = enn.Network(models.HodgkinAndHuxleyNeuron,
-                          models.default_Hodgkin_Huxley_neuron_dict,
-                          models.HodgkinAndHuxleyAxonSynapseSimple,
-                          synapseDict,
-                          dt,
-                          G,
-                          True)
+    nets = []
+    for we in np.linspace(0.5,4,8):
+        synapseDict = models.HodgkinAndHuxleyAxonSynapseSimple_Dictwrapper(we=we)
+        network = enn.Network(models.HodgkinAndHuxleyNeuron,
+                              models.default_Hodgkin_Huxley_neuron_dict,
+                              models.HodgkinAndHuxleyAxonSynapseSimple,
+                              synapseDict,
+                              dt,
+                              G,
+                              True)
+
+        id = simulator.addNetwork(network)
+        rec = enn.Recorder(id, network.getNeuronIDs(), variables=['Vm', 'I'], withTime=True, diskMode=True,
+                           toDiskDir='TestDir_%i' % id, overwrite=True)
+        recID = simulator.addRecorder(rec)
+        network.getNeuronByID(0)['Istim'] = 10
+        nets.append(id)
 
 
-    network.getNeuronByID(0)['Istim'] = 0
-
-    id = simulator.addNetwork(network)
-
-    # Add recorder
-    rec = enn.Recorder(id, network.getNeuronIDs(),variables=['Vm', 'I'], withTime=True, diskMode=True, toDiskDir='TestDir', overwrite=True)
-
-    recID = simulator.addRecorder(rec)
 
     #sim
 
-    simulator.simulate(500)
+    simulator.simulate(250, poolSize=4)
 
+    for id in nets:
+        simulator.getNetwork(id).getNeuronByID(0)['Istim'] = 0
 
-    simulator.getNetwork(id).getNeuronByID(0)['Istim'] = 10
-
-    simulator.simulate(500)
-
-    # Analyse data and create trace
-    import time
-
-    start = time.clock()
-    print('Retrieving recorder...')
-    rec = simulator.getRecorder(recID)
-    print('Done (%.4f)' % (time.clock()-start))
-
-    start = time.clock()
-    print('Generating spike events...')
-    spikeEvents = rec.getSpikeEventtimes(async=False)
-    print('Done (%.4f)' % (time.clock() - start))
-
-    print('Clearing variables...')
-    del(rec)
-    del(simulator)
-    del(network)
-
-    start = time.clock()
-    print('Generating network coordinates...')
-    G = ca.generateNetworkCoordinates(G)
-    print('Done (%.4f)' % (time.clock() - start))
-
-    start = time.clock()
-    print('Creating Ca2+ Trace...')
-    caTrace = ca.spikeEventsToCa2Trace(spikeEvents,dt=dt, end=5100)
-    print('Done (%.4f)' % (time.clock() - start))
-
-    start = time.clock()
-    print('Adding Gaussian noise to the trace...')
-    caTrace = ca.addGaussNoise(caTrace)
-    print('Done (%.4f)' % (time.clock() - start))
-
-    start = time.clock()
-    print('Saving trace...')
-    with open('caTrace.dat', 'wb') as f:
-        pickle.dump(caTrace, f)
-    print('Done (%.4f)' % (time.clock() - start))
-
-    start = time.clock()
-    print('Rendering video...')
-    ca.renderCa2Video(caTrace, G, dt=dt, fps=fps, mode='mean', noisemax=20, noiserep=120)
-    print('Done!!!! (%.2f)' % (time.clock() - start))
+    simulator.simulate(500, poolSize=4)

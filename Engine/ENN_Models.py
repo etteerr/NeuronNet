@@ -164,7 +164,7 @@ def transferFunction(x, turnpoint=0, max=1, steepness=10):
 
 def HodgkinAndHuxleyAxonSynapseSimple_Dictwrapper(
         # Changed gl to 0, leakage results in overflow errors in the neurons! (they have leakage them selves!)
-        wi=0, we=0, gl=0, El=-70, Ee=-30, Ei=-75,
+        wi=0, we=0, gl=0, El=-70, Ee=0, Ei=-75,
         VmTurn = 25, steepness = 5, sd=0.1
 ):
     '''

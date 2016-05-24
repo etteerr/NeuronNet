@@ -72,7 +72,7 @@ class Simulator:
     def createNetwork(self, G, neuronFun, synapseFun, neuronDict, synapseDict, dt, verbose=False):
         """
         createNetworks call Network(neuronFun,synapseFun,dt,G) for you
-        :param G: networkx network
+        :param G: networkx network or None (empty network)
         :param neuronFun: neuron class derived from the BaseNeuron class in Neurons.py
         :param synapseFun: synapse class derived from the baseSynapse class in Synapses.py
         :param dt: the simulation time step in ms

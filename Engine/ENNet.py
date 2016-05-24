@@ -131,6 +131,9 @@ class Simulator:
         :param network: Specify a networkid to simulate
         :return: None
         """
+        if duration_ms <= 0:
+            raise ValueError('Duration must be bigger than 0!')
+            #Because "(Simulator) Starting a -14.960000ms network simulation.." was an unintended feature...
         print('(Simulator) Starting a %fms network simulation..' % duration_ms)
         t = clock()
         if (network is None and poolSize is None) or sys.version_info < (3,0):
@@ -545,7 +548,7 @@ class Recorder(object):
         This is calculated over var for each neuron in neurons. If neurons is None, all neurons are used.
         :param var:
         :param neurons:
-        :return: Array of spike events per neuron
+        :return: Array of spike events per neuron in ms!
         """
         import csv
         if async:

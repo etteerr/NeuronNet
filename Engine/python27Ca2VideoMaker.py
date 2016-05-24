@@ -65,21 +65,26 @@ def spikeEventsFromFile(file, mode='r'):
     return res
 
 
-def spikeEventsToCa2Trace(spikeEventsData, start=0, end=None, dt=0.01, spikeForm=None):
+def spikeEventsToCa2Trace(spikeEventsData, start=0, end=None, dt=0.01, spikeForm=None, spikeLengthSeconds=10, tauOn = 0.01, ampFast = 7, tauFast = 0.5, recovery=1e-5, inpact=0.5):
     '''
-    Converts spike events to a [Ca2+] trace. Time stamps must be in ms.
+        Converts spike events to a [Ca2+] trace. Time stamps must be in ms.
     :param spikeEventsData: a Dict with neuron Id's as keys and vectors with timestamps.
     :param start: Start time
     :param end: end time
     :param dt: time resolution (independend of input)
     :param spikeForm: The spike form to be convolved over the spike data
+    :param tauOn: time to peak in seconds
+    :param ampFast:
+    :param tauFast:
     :return:
     '''
-    tauOn = 0.01 #s
-    ampFast = 7
-    tauFast = 0.5
-    ampSlow = 0
-    tauSlow = 0
+    dt = float(dt)
+    start = float(start)
+    tauOn = float(tauOn)  #s
+    ampFast = float(ampFast)
+    tauFast = float(tauFast)
+    #ampSlow = 0
+    #tauSlow = 0
     if end is None:
         #Find max spike time
         tmp = []
@@ -87,10 +92,11 @@ def spikeEventsToCa2Trace(spikeEventsData, start=0, end=None, dt=0.01, spikeForm
             tmp.append(max(data)) # we dont assume the last value is the max value
         end = max(tmp)
         del tmp
+    end = float(end)
 
     old = np.seterr(under='ignore')
     if spikeForm is None:
-        x = np.linspace(0, 10, np.ceil(10/dt)+1)
+        x = np.linspace(0, spikeLengthSeconds, np.ceil(spikeLengthSeconds/(dt/1000))+1)
         spikeForm = (1 - (exp(-(x - 0) / tauOn))) * (ampFast * exp(-(x - 0) / tauFast))# + (ampSlow * exp(-(x - 0) / tauSlow))
         spikeForm[np.isnan(spikeForm)] = 0
     res = {}

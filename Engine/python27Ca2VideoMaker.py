@@ -65,7 +65,7 @@ def spikeEventsFromFile(file, mode='r'):
     return res
 
 
-def spikeEventsToCa2Trace(spikeEventsData, start=0, end=None, dt=0.01, spikeForm=None, spikeLengthSeconds=10, tauOn = 0.01, ampFast = 7, tauFast = 0.5, recovery=1e-5, inpact=0.5):
+def spikeEventsToCa2Trace(spikeEventsData, start=0, end=None, dt=0.01, spikeForm=None, spikeLengthSeconds=10, tauOn = 0.01, ampFast = 7, tauFast = 0.5, maxCaScaleLevel = 3, scaler=1.0/3.0):
     '''
         Converts spike events to a [Ca2+] trace. Time stamps must be in ms.
     :param spikeEventsData: a Dict with neuron Id's as keys and vectors with timestamps.
@@ -78,6 +78,8 @@ def spikeEventsToCa2Trace(spikeEventsData, start=0, end=None, dt=0.01, spikeForm
     :param tauFast:
     :return:
     '''
+    maxCaScaleLevel = float(maxCaScaleLevel)
+    scaler = float(scaler)
     dt = float(dt)
     start = float(start)
     tauOn = float(tauOn)  #s
@@ -99,13 +101,36 @@ def spikeEventsToCa2Trace(spikeEventsData, start=0, end=None, dt=0.01, spikeForm
         x = np.linspace(0, spikeLengthSeconds, np.ceil(spikeLengthSeconds/(dt/1000))+1)
         spikeForm = (1 - (exp(-(x - 0) / tauOn))) * (ampFast * exp(-(x - 0) / tauFast))# + (ampSlow * exp(-(x - 0) / tauSlow))
         spikeForm[np.isnan(spikeForm)] = 0
+    peakvalue = max(spikeForm)
+    peaktime = float(np.argmax(spikeForm))*dt
     res = {}
+    #loop over every entry
     for (key, data) in spikeEventsData.items():
         tx = np.zeros(np.ceil((end-start)/dt)+1)
+        eventscalelist = [] # Temp storage for event scaling
+        # Loop over every event in an entry
         for y in data:
             if y > start and y <= end:
+                # Keep all entries that are within the time span
+                eventscalelist[:] = [(ps, py) for (ps, py) in eventscalelist
+                                     if y - py < float(spikeLengthSeconds) * 1000.0]
+                if len(eventscalelist) < 1:
+                    scale = 1.0
+                    eventscalelist.append((scale, y))
+                else: # Calculate scale for the next ca activity
+                    calevel = 0
+                    for (ps, py) in eventscalelist:
+                        t = y - py # Time past
+                        if t < peaktime:
+                            calevel += ps * peakvalue
+                        else:
+                            # Use spikeForm as lookup table
+                            calevel += ps * (spikeForm[np.floor(t/dt)])
+                    scale = scaler * (maxCaScaleLevel - calevel/peakvalue) # <<-- Magic (converts calevel to scale, compares to max scale and determains the current rise
+                    eventscalelist.append((scale, y))
+
                 index = np.floor((y-start)/dt)
-                tx[index] += 1
+                tx[index] += scale
         tx = np.convolve(tx, spikeForm)
         res[key] = tx
     np.seterr(** old)

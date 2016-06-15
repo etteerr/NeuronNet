@@ -3,7 +3,7 @@ import Engine.ENN_Models as ennmod
 import Engine.python27Ca2VideoMaker as ca2
 
 
-def spiketraintrace(nspikes, frequency, pulsewidth, current, trace_dt=10, net_dt=0.01, padding=100):
+def spiketraintrace(nspikes, frequency, pulsewidth, current, trace_dt=10.0, net_dt=0.01, padding=100):
     '''
     nspikes = 1
     frequency = 100  # hz
@@ -17,7 +17,7 @@ def spiketraintrace(nspikes, frequency, pulsewidth, current, trace_dt=10, net_dt
     net = enn.Network(ennmod.HodgkinAndHuxleyNeuron,
                       ennmod.default_Hodgkin_Huxley_neuron_dict,
                       ennmod.HodgkinAndHuxleyAxonSynapseSimple,
-                      ennmod.HodgkinAndHuxleyAxonSynapseSimple_Dictwrapper(),
+                      ennmod.HodgkinAndHuxleyAxonSynapseSimple_Dictwrapper(net_dt),
                       dt=net_dt, verbose=False)
     # add one neuron
     nid = net.addNeuron()
@@ -29,7 +29,7 @@ def spiketraintrace(nspikes, frequency, pulsewidth, current, trace_dt=10, net_dt
     rec = enn.Recorder(netid, [nid], ['Vm', 'Istim'], withTime=True)
     sim.addRecorder(rec)
 
-    # simulate 25 ms of no activity to ensure rest potential
+    # simulate 100 ms of no activity to ensure rest potential
     sim.simulate(padding)
 
     # injection pulses
@@ -48,9 +48,11 @@ def spiketraintrace(nspikes, frequency, pulsewidth, current, trace_dt=10, net_dt
 
     spikeEvents = rec.getSpikeEventtimes()
 
-    tauOn = 1
-    ampFast = 17
-    tauFast = 5
-    trace = ca2.spikeEventsToCa2Trace(spikeEvents, end=sim.getNetwork(netid)._time+1000, dt=trace_dt, spikeLengthSeconds=40, tauOn=tauOn, ampFast=ampFast, tauFast=tauFast)
+    tauOn = 10
+    ampFast = 8
+    tauFast = 5000
+    ampSlow = 3
+    tauSlow = 8000
+    trace = ca2.spikeEventsToCa2Trace(spikeEvents,scaler=0.3, maxCaScaleLevel=3 , tauOn = tauOn, ampFast=ampFast, tauFast=tauFast, ampSlow=ampSlow, tauSlow=tauSlow, end=sim.getNetwork(netid)._time+1000, dt=trace_dt, spikeLengthSeconds=40)#, tauOn=tauOn, ampFast=ampFast, tauFast=tauFast)
     trace = ca2.addGaussNoise(trace, sd=0.4)
     return list(trace[0])

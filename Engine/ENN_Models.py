@@ -55,6 +55,10 @@ def neuronGauss(neuronDict):
     return neuronDict
 
 ################ Synapse ################
+def directConnect(synapseDict, source, dest):
+    dest['I'] += source['Vm']
+    return [synapseDict, source, dest]
+
 def erwinSynapse(synapseDict, source, dest):
     #I,i,w,source,dest = Synapse
     dest['I'] += synapseDict['I'][synapseDict['i']] ## Add it!!, dont overwrite other synapses!
@@ -69,14 +73,14 @@ def erwinSynapse(synapseDict, source, dest):
 #### Hodgkin & Huxley                 ####
 ##########################################
 default_Hodgkin_Huxley_neuron_dict = {
-    'Vm'   : -65,   # The membrane Voltage
+    'Vm'    : -65,   # The membrane Voltage
     'Eq'    : -65,# The resting voltage of the neuron
     'INa'   : -1.22,    # The natrium current
     'IK'    : 4.4,    # potassium current
     'Il'    : -3.18,    # The leakage current
-    'gNa'  : 120,  # conductance constant for Na (mS)
-    'gK'   : 36,   # conductance constant for K  (mS)
-    'gl'   : 0.3,  # conductance constant for leakage (mS)
+    'gNa'   : 120,  # conductance constant for Na (mS)
+    'gK'    : 36,   # conductance constant for K  (mS)
+    'gl'    : 0.3,  # conductance constant for leakage (mS)
     'ENa'   : 115,  # resting potential Na
     'EK'    : -12,  # resting potential K
     'El'    : 10.6, # resting potential Leakage
@@ -164,8 +168,8 @@ def transferFunction(x, turnpoint=0, max=1, steepness=10):
 
 def HodgkinAndHuxleyAxonSynapseSimple_Dictwrapper(
         # Changed gl to 0, leakage results in overflow errors in the neurons! (they have leakage them selves!)
-        wi=0, we=0, gl=0, El=-70, Ee=0, Ei=-75,
-        VmTurn = 25, steepness = 5, sd=0.4
+        dt,wi=0, we=0, gl=0, El=-70, Ee=1.5, Ei=-70,
+        VmTurn = 25, steepness = 5, sd=0.4, delay=1
 ):
     '''
     See HodgkinAndHuxleyAxonSynapseSimple
@@ -179,7 +183,10 @@ def HodgkinAndHuxleyAxonSynapseSimple_Dictwrapper(
         'Ei':Ei,
         'VmTurn':VmTurn,
         'steepness':steepness,
-        'sd':sd
+        'sd':sd,
+        'delay':delay,
+        'delayvector': [(0,0) for i in range(0,int(numpy.floor(float(delay)/float(dt))))],
+        'delayindex': 0
     }
 
 def HodgkinAndHuxleyAxonSynapseSimple(synapseDict, source, dest):
@@ -204,11 +211,21 @@ def HodgkinAndHuxleyAxonSynapseSimple(synapseDict, source, dest):
     :param source:
     :param dest:
     :return:
+
     '''
     V = dest['Vm']
+    #Calculate gate values
     gate_value = transferFunction(source['Vm'], synapseDict['VmTurn'], max=1, steepness=synapseDict['steepness'])
-    gi = gate_value * synapseDict['wi'] + numpy.abs(numpy.random.normal(0,synapseDict['sd']))
-    ge = gate_value * synapseDict['we'] + numpy.abs(numpy.random.normal(0,synapseDict['sd']))
+    gi = gate_value * synapseDict['wi']
+    ge = gate_value * synapseDict['we']
+    synapseDict['delayvector'][synapseDict['delayindex']] = (gi, ge)
+
+    # Retrieve delayed gate values (spike propagation delay)
+    # Use the up-to-date destination Vm
+    synapseDict['delayindex'] = (synapseDict['delayindex']+1) % len(synapseDict['delayvector'])
+    (gi, ge) = synapseDict['delayvector'][synapseDict['delayindex']]
+    gi += numpy.abs(numpy.random.normal(0,synapseDict['sd']))
+    ge += numpy.abs(numpy.random.normal(0,synapseDict['sd']))
     dest['I'] -= source['dt'] * (synapseDict['gl'] * (V-synapseDict['El']) + gi * (V-synapseDict['Ei']) + ge * (V-synapseDict['Ee']))
     return [synapseDict, source, dest]
 

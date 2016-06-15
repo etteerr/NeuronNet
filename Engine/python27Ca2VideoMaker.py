@@ -65,7 +65,7 @@ def spikeEventsFromFile(file, mode='r'):
     return res
 
 
-def spikeEventsToCa2Trace(spikeEventsData, start=0, end=None, dt=0.01, spikeForm=None, spikeLengthSeconds=10, tauOn = 0.01, ampFast = 7, tauFast = 0.5, maxCaScaleLevel = 3, scaler=1.0/3.0):
+def spikeEventsToCa2Trace(spikeEventsData, start=0, end=None, dt=0.01, spikeForm=None, spikeLengthSeconds=10, tauOn = 10, ampFast = 8, tauFast = 60, ampSlow = 3, tauSlow=800, maxCaScaleLevel = 3, scaler=1.0/3.0):
     '''
         Converts spike events to a [Ca2+] trace. Time stamps must be in ms.
     :param spikeEventsData: a Dict with neuron Id's as keys and vectors with timestamps.
@@ -85,6 +85,8 @@ def spikeEventsToCa2Trace(spikeEventsData, start=0, end=None, dt=0.01, spikeForm
     tauOn = float(tauOn)  #s
     ampFast = float(ampFast)
     tauFast = float(tauFast)
+    tauSlow = float(tauSlow)
+    ampSlow = float(ampSlow)
     #ampSlow = 0
     #tauSlow = 0
     if end is None:
@@ -98,8 +100,8 @@ def spikeEventsToCa2Trace(spikeEventsData, start=0, end=None, dt=0.01, spikeForm
 
     old = np.seterr(under='ignore')
     if spikeForm is None:
-        x = np.linspace(0, spikeLengthSeconds, np.ceil(spikeLengthSeconds/(dt/1000))+1)
-        spikeForm = (1 - (exp(-(x - 0) / tauOn))) * (ampFast * exp(-(x - 0) / tauFast))# + (ampSlow * exp(-(x - 0) / tauSlow))
+        x = np.linspace(0, spikeLengthSeconds*1000.0, np.ceil(((spikeLengthSeconds*1000.0)/dt)+1))
+        spikeForm = (1 - (exp(-(x - 3) / tauOn))) * (ampFast * exp(-(x - 3) / tauFast)) + (ampSlow * exp(-(x - 3) / tauSlow))
         spikeForm[np.isnan(spikeForm)] = 0
     peakvalue = max(spikeForm)
     peaktime = float(np.argmax(spikeForm))*dt

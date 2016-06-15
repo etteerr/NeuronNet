@@ -47,7 +47,7 @@ class Simulator:
         """
 
         Initializes basic simulator class
-        :param ignoreWarnings: Suppresses warnings when changing settings after a simulation has ran
+        :param ignoreWarnings: Suppresses warnings when changing settings after a simulation has ran *UNUSED*
         :return: self
         """
         self._ignoreWarnings = ignoreWarnings
@@ -176,7 +176,7 @@ class Simulator:
 class Network:
     _suppressChangeWarnings = False
 
-    def __init__(self, neuronFun, neuronDict, synapseFun, synapseDict, dt, networkx=None, verbose=False,
+    def __init__(self, neuronFun, neuronDict, synapseFun, synapseDict, dt, networkx=None, verbose=False, etaInterval=30,
                  debugVerbose=False, progressCallback=None):
         """
         Generates a network based on the parameters
@@ -195,6 +195,7 @@ class Network:
         # Verbosity settings
         self._debugVerbose = debugVerbose  # All timings
         self._verbose = verbose  # Progress times
+        self._etainterval = etaInterval
 
         # Data dicts
         self._neurons = {}
@@ -296,6 +297,9 @@ class Network:
         self._synapses[id] = synapseDict
         return id
 
+    def getConnectionByID(self, id):
+        return self._synapses[id]
+
     def deleteConnection(self, id):
         """
         Deletes specified connection.
@@ -321,6 +325,25 @@ class Network:
             self.deleteConnection(_id)
 
         return self._neurons.pop(id)
+
+    def getNetworkX(self, weightvar='w'):
+        #weight is -1 on error (weightvar not found)
+        import networkx as nx
+        G = nx.DiGraph()
+
+        # Add nodes
+        G.add_nodes_from(self._neurons.keys())
+
+        # Add edges
+        edges = []
+        for (key, syn) in self._synapses.items():
+            try:
+                weight = syn[weightvar]
+            except:
+                weight = -1
+            edges.append((syn['_source'], syn['_destin'], weight))
+        G.add_weighted_edges_from(edges)
+        return G
 
     def getNeuronIDs(self):
         """
@@ -351,7 +374,7 @@ class Network:
         :param duration: duration of simulation in ms
         :param recorders: The recorders for this network
         :param poolSize: The amount of subprocess. < 1 or None = Local only.
-        Note: poolSize dramatically increases simulation time... bad implementation
+        Note: poolSize dramatically increases simulation time... bad implementation *Depricated*
         :return: I wont return a value or anything... baka
         """
         # Generate timeline
@@ -375,7 +398,7 @@ class Network:
 
     ##################################### Local operations #####################################
     def localSim(self, timeline):
-        etaEvery = 60  # seconds (no more than 1 in 5 seconds)
+        etaEvery = self._etainterval  # seconds
         sPassed = 0
         stepCounter = 0
         totalSteps = len(timeline)
@@ -512,11 +535,12 @@ class Recorder(object):
                 for (key, value) in self[var].items():
                     writer.writerow([key]+value)
 
-    def setNetworkStructure(self, network, synapseWeightVar='w'):
+    def setNetworkStructure(self, network, synapseWeightVar='w', storeDict=False):
         """
         Takes a Network class object (from ENNet) and converts it to
         an networkx file. This maybe needed to render the network results.
         :param network:
+        :param storeDict: Stores the whole dictionary of the synapses and neurons in the DiGraph
         :return: Nothing
         """
         if self._toDisk:
@@ -525,14 +549,22 @@ class Recorder(object):
         G = nx.DiGraph()
 
         # Add nodes
-        G.add_nodes_from(network._neurons.keys())
+        if storeDict:
+            for (id, d)  in network._neurons.items():
+                G.add_node(id, d)
+        else:
+            G.add_nodes_from(network._neurons.keys())
 
         # Add edges
-        edges = []
-        for (key, syn) in network._synapses.items():
-            weight = syn[synapseWeightVar]
-            edges.append((syn['_source'], syn['_desti'], weight))
-        G.add_weighted_edges_from(edges)
+        if storeDict:
+            for (key, syn) in network._synapses.items():
+                G.add_edge(syn['_source'], syn['_destin'], syn)
+        else:
+            edges = []
+            for (key, syn) in network._synapses.items():
+                weight = syn[synapseWeightVar]
+                edges.append((syn['_source'], syn['_destin'], weight))
+            G.add_weighted_edges_from(edges)
         self._networkStucture = G
 
 
@@ -570,7 +602,7 @@ class Recorder(object):
                     writer = csv.writer(f)
                     for (nId, pId) in rets:
                         data[nId] = pId.get()
-                        writer.writerow([nId] + data[nId])
+                        writer.writerow(['id %i' % nId] + list(data[nId]))
             else:
                 for (nId, pId) in rets:
                     data[nId] = pId.get()
@@ -592,7 +624,8 @@ class Recorder(object):
                 with open(file + '.txt', 'w') as f:
                     writer = csv.writer(f)
                     for nId in data.keys():
-                        writer.writerow([nId] + data[nId])
+                        writedata = ['id %i' % nId] + list(data[nId])
+                        writer.writerow(writedata)
 
         return data
 
@@ -604,6 +637,8 @@ class Recorder(object):
         :return:
         """
         #import pylab as pl
+        if len(data) < 1:
+            return []
         idxs = pu.indexes(np.array(data), thres=0.1, min_dist=100)
         timeEvents = idxs * dt
         return timeEvents

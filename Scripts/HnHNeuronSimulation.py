@@ -29,7 +29,7 @@ if __name__ == '__main__':
 
     # Use networkx library to create nodes and edges (neurons and synapses)
     # TODO: the possibility of nodes being networks
-    N = 20  # Set network size
+    N = 200  # Set network size
     nWorkers = 2  # used in sim.simulate(), Specifies the number of parallel networks to simulate (in this case none, we only have 1 network)
     verbose = True  # A lot of timing information
     dt = 0.01  # Simulation stepsize

@@ -2,12 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c5468e22-4242-4315-9a9d-571600069c19" name="Default" comment="Changed Working of ENNet&#10;- Removed parallel processing within networks&#10;- Added parallel processing of networks&#10;- Removed usage of Procpar, Now using multiprocessing.Pool&#10;- Fixed all synapses connecting from source to source&#10;- Fixed various outdated interfaces to functions&#10;- Updated H&amp;HNeuronSimulatie.py for the new features &#10;- Renamed H&amp;HNeuronSimulatie.py to HnHNeuronSimulatie.py&#10;- Changed notifications to be uniform. Now  in the form of: (class) Message and (class %id) Message&#10;- Added various checks to prevent bugs with manual addition of synapses and neurons&#10;- Added support for multiple types of synapses and neurons within a network. (This support was dropped and added again)&#10;- Now Recorder option 'withTime' is no longer ignored.&#10;- Removed Procpar and afflicted code">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scripts/spikeCaImagingTestTrace.dat" afterPath="$PROJECT_DIR$/Scripts/spikeCaImagingTestTrace.dat" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scripts/spikeCaImagingTestTrace.dat" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/NeuronNet.iml" afterPath="$PROJECT_DIR$/.idea/NeuronNet.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Engine/ENN_Models.py" afterPath="$PROJECT_DIR$/Engine/ENN_Models.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Engine/ENNet.py" afterPath="$PROJECT_DIR$/Engine/ENNet.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Engine/python27Ca2VideoMaker.py" afterPath="$PROJECT_DIR$/Engine/python27Ca2VideoMaker.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scripts/HnHNeuronSimulation.py" afterPath="$PROJECT_DIR$/Scripts/HnHNeuronSimulation.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scripts/spikeCaImagingTest_Fin.py" afterPath="$PROJECT_DIR$/Scripts/spikeCaImagingTest_Fin.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scripts/spikeTrainCaTraceFun.py" afterPath="$PROJECT_DIR$/Scripts/spikeTrainCaTraceFun.py" />
     </list>
     <ignored path="NeuronNet.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,23 +32,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MultipleNetworksTest.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Scripts/MultipleNetworksTest.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="884">
-              <caret line="57" column="46" selection-start-line="57" selection-start-column="46" selection-end-line="57" selection-end-column="46" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ENNet.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Engine/ENNet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="445">
-              <caret line="93" column="0" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
+            <state relative-caret-position="4675">
+              <caret line="277" column="52" selection-start-line="277" selection-start-column="52" selection-end-line="277" selection-end-column="52" />
               <folding>
                 <element signature="e#718#729#0" expanded="true" />
               </folding>
@@ -52,24 +44,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Load&amp;generateVideoTest.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Scripts/Load&amp;generateVideoTest.py">
+      <file leaf-file-name="python27Ca2VideoMaker.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Engine/python27Ca2VideoMaker.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="28" column="27" selection-start-line="28" selection-start-column="27" selection-end-line="28" selection-end-column="27" />
+            <state relative-caret-position="1757">
+              <caret line="204" column="14" selection-start-line="204" selection-start-column="14" selection-end-line="204" selection-end-column="14" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ManualRecorderManipulation.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Scripts/ManualRecorderManipulation.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -77,22 +57,10 @@
       <file leaf-file-name="spikeCaImagingTest.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Scripts/spikeCaImagingTest.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+            <state relative-caret-position="119">
+              <caret line="8" column="45" selection-start-line="8" selection-start-column="45" selection-end-line="8" selection-end-column="45" />
               <folding>
                 <element signature="e#69#82#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="spikeTrainCaTraceFun.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Scripts/spikeTrainCaTraceFun.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="416">
-              <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -101,8 +69,8 @@
       <file leaf-file-name="spikeCaImagingTest_Fin.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Scripts/spikeCaImagingTest_Fin.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+            <state relative-caret-position="153">
+              <caret line="9" column="31" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
               <folding>
                 <element signature="e#12#30#0" expanded="true" />
               </folding>
@@ -110,35 +78,55 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ENN_Models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Engine/ENN_Models.py">
+      <file leaf-file-name="spikeTrainCaTraceFun.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Scripts/spikeTrainCaTraceFun.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3111">
-              <caret line="184" column="37" selection-start-line="184" selection-start-column="4" selection-end-line="184" selection-end-column="37" />
+            <state relative-caret-position="442">
+              <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
               <folding>
-                <element signature="e#718#730#0" expanded="true" />
+                <element signature="e#0#26#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DiskList.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Engine/DiskList.py">
+      <file leaf-file-name="rasterplot.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Scripts/rasterplot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="765">
-              <caret line="45" column="37" selection-start-line="45" selection-start-column="37" selection-end-line="45" selection-end-column="37" />
+            <state relative-caret-position="238">
+              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="python27Ca2VideoMaker.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Engine/python27Ca2VideoMaker.py">
+      <file leaf-file-name="ENN_Models.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Engine/ENN_Models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1476">
-              <caret line="131" column="46" selection-start-line="131" selection-start-column="46" selection-end-line="131" selection-end-column="46" />
+            <state relative-caret-position="824">
+              <caret line="143" column="41" selection-start-line="143" selection-start-column="41" selection-end-line="143" selection-end-column="41" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HnHNeuronSimulation.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Scripts/HnHNeuronSimulation.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="952">
+              <caret line="60" column="5" selection-start-line="60" selection-start-column="5" selection-end-line="60" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="recurrentNetworktest.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Scripts/recurrentNetworktest.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="13" column="20" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="20" />
               <folding>
-                <marker date="1464346825605" expanded="false" signature="332:388" placeholder="import ..." />
+                <element signature="e#27#53#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -170,10 +158,8 @@
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/HnHNeuronSimulation.py" />
         <option value="$PROJECT_DIR$/NeuronNetInterface/Start.py" />
-        <option value="$PROJECT_DIR$/Scripts/SimpleNeuronSimulation.py" />
         <option value="$PROJECT_DIR$/Scripts/spikeEventsTest.py" />
         <option value="$PROJECT_DIR$/test.csv" />
-        <option value="$PROJECT_DIR$/Scripts/HnHNeuronSimulation.py" />
         <option value="$PROJECT_DIR$/Engine/python27-ca2VideoMaker.py" />
         <option value="$PROJECT_DIR$/Engine/__init__.py" />
         <option value="$PROJECT_DIR$/Engine/ca2videotest.py" />
@@ -186,17 +172,21 @@
         <option value="$PROJECT_DIR$/Scripts/OverUnderFlowTest.py" />
         <option value="$PROJECT_DIR$/Scripts/linux_run.py" />
         <option value="$PROJECT_DIR$/Scripts/ca2videotest.py" />
-        <option value="$PROJECT_DIR$/Engine/ENN_Models.py" />
         <option value="$PROJECT_DIR$/Scripts/MultipleNetworksTest.py" />
         <option value="$PROJECT_DIR$/Engine/DiskList.py" />
         <option value="$PROJECT_DIR$/Scripts/Load&amp;generateVideoTest.py" />
         <option value="$PROJECT_DIR$/Scripts/ManualRecorderManipulation.py" />
         <option value="$PROJECT_DIR$/Scripts/spikeCaImagingTest_Processing.py" />
         <option value="$PROJECT_DIR$/Scripts/spikeCaImagingTest.py" />
-        <option value="$PROJECT_DIR$/Scripts/spikeTrainCaTraceFun.py" />
-        <option value="$PROJECT_DIR$/Engine/ENNet.py" />
-        <option value="$PROJECT_DIR$/Scripts/spikeCaImagingTest_Fin.py" />
         <option value="$PROJECT_DIR$/Engine/python27Ca2VideoMaker.py" />
+        <option value="$PROJECT_DIR$/Scripts/spikeTrainCaTraceFun.py" />
+        <option value="$PROJECT_DIR$/Scripts/HnHNeuronSimulation.py" />
+        <option value="$PROJECT_DIR$/Scripts/SimpleNeuronSimulation.py" />
+        <option value="$PROJECT_DIR$/Engine/ENNet.py" />
+        <option value="$PROJECT_DIR$/Engine/ENN_Models.py" />
+        <option value="$PROJECT_DIR$/Scripts/spikeCaImagingTest_Fin.py" />
+        <option value="$PROJECT_DIR$/Scripts/recurrentNetworktest.py" />
+        <option value="$PROJECT_DIR$/Scripts/rasterplot.py" />
       </list>
     </option>
   </component>
@@ -250,8 +240,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -300,6 +288,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -324,68 +314,17 @@
     <property name="last_opened_file_path" value="$USER_HOME$/AppData/Local/GitHub/PortableGit_d76a6a98c9315931ec4927243517bc09e9b731a0/cmd/git.exe" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Erwin\Documents\GitHub\NeuronNet" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Erwin\Documents\GitHub\NeuronNet\Scripts" />
       <recent name="C:\Users\Erwin\Documents\GitHub\NeuronNet" />
       <recent name="C:\Users\shanshi\Documents\GitHub\NeuronNet\Scripts" />
       <recent name="C:\Users\shanshi\Documents\GitHub\NeuronNet" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Erwin\Documents\GitHub\NeuronNet" />
-    </key>
   </component>
-  <component name="RunManager" selected="Python.spikeCaImagingTest">
-    <configuration default="false" name="Load&amp;generateVideoTest" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Scripts" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="NeuronNet" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Scripts/Load&amp;generateVideoTest.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="ManualRecorderManipulation" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Scripts" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="NeuronNet" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Scripts/ManualRecorderManipulation.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="MultipleNetworksTest" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Scripts" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="NeuronNet" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Scripts/MultipleNetworksTest.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python.rasterplot">
     <configuration default="false" name="spikeCaImagingTest" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -403,19 +342,70 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="python27Ca2VideoMaker" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration default="false" name="spikeCaImagingTest_Fin" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Engine" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Scripts" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="NeuronNet" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Engine/python27Ca2VideoMaker.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Scripts/spikeCaImagingTest_Fin.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="SimpleNeuronSimulation" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Scripts" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="NeuronNet" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Scripts/SimpleNeuronSimulation.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="recurrentNetworktest" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Scripts" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="NeuronNet" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Scripts/recurrentNetworktest.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="rasterplot" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Scripts" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="NeuronNet" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Scripts/rasterplot.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -555,19 +545,19 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.Load&amp;generateVideoTest" />
-      <item index="1" class="java.lang.String" itemvalue="Python.ManualRecorderManipulation" />
-      <item index="2" class="java.lang.String" itemvalue="Python.MultipleNetworksTest" />
-      <item index="3" class="java.lang.String" itemvalue="Python.spikeCaImagingTest" />
-      <item index="4" class="java.lang.String" itemvalue="Python.python27Ca2VideoMaker" />
+      <item index="0" class="java.lang.String" itemvalue="Python.spikeCaImagingTest" />
+      <item index="1" class="java.lang.String" itemvalue="Python.spikeCaImagingTest_Fin" />
+      <item index="2" class="java.lang.String" itemvalue="Python.SimpleNeuronSimulation" />
+      <item index="3" class="java.lang.String" itemvalue="Python.recurrentNetworktest" />
+      <item index="4" class="java.lang.String" itemvalue="Python.rasterplot" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.spikeCaImagingTest" />
-        <item index="1" class="java.lang.String" itemvalue="Python.python27Ca2VideoMaker" />
-        <item index="2" class="java.lang.String" itemvalue="Python.ManualRecorderManipulation" />
-        <item index="3" class="java.lang.String" itemvalue="Python.Load&amp;generateVideoTest" />
-        <item index="4" class="java.lang.String" itemvalue="Python.MultipleNetworksTest" />
+        <item index="0" class="java.lang.String" itemvalue="Python.rasterplot" />
+        <item index="1" class="java.lang.String" itemvalue="Python.recurrentNetworktest" />
+        <item index="2" class="java.lang.String" itemvalue="Python.spikeCaImagingTest_Fin" />
+        <item index="3" class="java.lang.String" itemvalue="Python.SimpleNeuronSimulation" />
+        <item index="4" class="java.lang.String" itemvalue="Python.spikeCaImagingTest" />
       </list>
     </recent_temporary>
   </component>
@@ -604,26 +594,26 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14072494" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17217484" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30627707" sideWeight="0.5101279" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30378377" sideWeight="0.48987207" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23135135" sideWeight="0.50692964" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29945946" sideWeight="0.48987207" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32683983" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23701298" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40111113" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1444563" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32864866" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37229437" sideWeight="0.49253732" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24862486" sideWeight="0.49307036" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32048458" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36972973" sideWeight="0.49253732" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -650,9 +640,14 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/Scripts/spikeCaImagingTest.py</url>
-          <line>8</line>
-          <option name="timeStamp" value="108" />
+          <url>file://$PROJECT_DIR$/Scripts/spikeTrainCaTraceFun.py</url>
+          <line>48</line>
+          <option name="timeStamp" value="122" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/Scripts/spikeCaImagingTest_Fin.py</url>
+          <line>12</line>
+          <option name="timeStamp" value="124" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -665,17 +660,11 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="109" />
+      <option name="time" value="125" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
-        <watch expression="y" language="Python" />
-        <watch expression="py" language="Python" />
-        <watch expression="ps" language="Python" />
-        <watch expression="scale" language="Python" />
-        <watch expression="eventscalelist" language="Python" />
-        <watch expression="tx" language="Python" />
-        <watch expression="calevel" language="Python" />
+        <watch expression="dest['I']" language="Python" />
       </configuration>
       <configuration name="Python Console Debugger">
         <watch expression="data" language="Python" />
@@ -683,44 +672,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Scripts/HnHNeuronSimulation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Engine/python27Ca2VideoMaker.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="36" column="65" selection-start-line="36" selection-start-column="65" selection-end-line="36" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Scripts/MultipleNetworksTest.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Engine/ENN_Models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2278">
-          <caret line="135" column="0" selection-start-line="135" selection-start-column="0" selection-end-line="135" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Anaconda/Lib/site-packages/matplotlib/backends/qt_compat.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1972">
-          <caret line="123" column="0" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Anaconda/Lib/site-packages/IPython/core/interactiveshell.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="46954">
@@ -742,31 +693,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Scripts/spikeEventsTest.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Scripts/HnHNeuronSimulation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Anaconda/Lib/site-packages/matplotlib/backends/qt_compat.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1972">
           <caret line="123" column="0" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Anaconda/Lib/site-packages/IPython/core/interactiveshell.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="46954">
-          <caret line="2830" column="0" selection-start-line="2830" selection-start-column="0" selection-end-line="2830" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -942,39 +872,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Engine/DiskList.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="45" column="37" selection-start-line="45" selection-start-column="37" selection-end-line="45" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Scripts/Load&amp;generateVideoTest.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
           <caret line="28" column="27" selection-start-line="28" selection-start-column="27" selection-end-line="28" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Engine/ENN_Models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3111">
-          <caret line="184" column="37" selection-start-line="184" selection-start-column="4" selection-end-line="184" selection-end-column="37" />
-          <folding>
-            <element signature="e#718#730#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Scripts/MultipleNetworksTest.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="884">
-          <caret line="57" column="46" selection-start-line="57" selection-start-column="46" selection-end-line="57" selection-end-column="46" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -983,59 +884,138 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
           <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Scripts/spikeCaImagingTest_Fin.py">
+    <entry file="file://$PROJECT_DIR$/Scripts/MultipleNetworksTest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding>
-            <element signature="e#12#30#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="884">
+          <caret line="57" column="46" selection-start-line="57" selection-start-column="46" selection-end-line="57" selection-end-column="46" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Scripts/spikeCaImagingTest.py">
+    <entry file="file://C:/Anaconda3/Lib/site-packages/matplotlib/pyplot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding>
-            <element signature="e#69#82#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="7514">
+          <caret line="477" column="0" selection-start-line="477" selection-start-column="0" selection-end-line="477" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Anaconda/Lib/site-packages/IPython/core/interactiveshell.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="2831" column="0" selection-start-line="2831" selection-start-column="0" selection-end-line="2831" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Engine/DiskList.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2958">
+          <caret line="174" column="17" selection-start-line="174" selection-start-column="17" selection-end-line="174" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Scripts/spikeEventsTest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Scripts/SimpleNeuronSimulation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="952">
+          <caret line="60" column="24" selection-start-line="60" selection-start-column="24" selection-end-line="60" selection-end-column="24" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Engine/ENNet.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="445">
-          <caret line="93" column="0" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
+        <state relative-caret-position="4675">
+          <caret line="277" column="52" selection-start-line="277" selection-start-column="52" selection-end-line="277" selection-end-column="52" />
           <folding>
             <element signature="e#718#729#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Scripts/HnHNeuronSimulation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="952">
+          <caret line="60" column="5" selection-start-line="60" selection-start-column="5" selection-end-line="60" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Scripts/spikeCaImagingTest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="8" column="45" selection-start-line="8" selection-start-column="45" selection-end-line="8" selection-end-column="45" />
+          <folding>
+            <element signature="e#69#82#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Scripts/spikeTrainCaTraceFun.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+        <state relative-caret-position="442">
+          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Scripts/spikeCaImagingTestTrace.dat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Scripts/spikeCaImagingTest_Fin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="31" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
+          <folding>
+            <element signature="e#12#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Scripts/recurrentNetworktest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="13" column="20" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="20" />
+          <folding>
+            <element signature="e#27#53#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Scripts/rasterplot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Engine/python27Ca2VideoMaker.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1476">
-          <caret line="131" column="46" selection-start-line="131" selection-start-column="46" selection-end-line="131" selection-end-column="46" />
-          <folding>
-            <marker date="1464346825605" expanded="false" signature="332:388" placeholder="import ..." />
-          </folding>
+        <state relative-caret-position="1757">
+          <caret line="204" column="14" selection-start-line="204" selection-start-column="14" selection-end-line="204" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Engine/ENN_Models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="824">
+          <caret line="143" column="41" selection-start-line="143" selection-start-column="41" selection-end-line="143" selection-end-column="41" />
+          <folding />
         </state>
       </provider>
     </entry>
